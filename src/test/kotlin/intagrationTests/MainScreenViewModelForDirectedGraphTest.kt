@@ -96,6 +96,18 @@ class MainScreenViewModelForDirectedGraphTest {
     }
 
     @Test
+    fun `check for negative weights without negative weights`() {
+        graph =
+            DirectedGraph().apply {
+                addEdge(1, 2, 0)
+                addEdge(2, 3, 4)
+                addEdge(3, 1, 1)
+            }
+        viewModel = MainScreenViewModelForDirectedGraph(graph, representationStrategy)
+        assertFalse(viewModel.checkForNegativeWeights())
+    }
+
+    @Test
     fun `dijkstra test`() {
         graph =
             DirectedGraph().apply {

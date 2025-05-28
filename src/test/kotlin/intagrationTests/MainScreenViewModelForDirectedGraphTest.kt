@@ -314,7 +314,7 @@ class MainScreenViewModelForDirectedGraphTest {
     }
 
     @Test
-    fun `set vertex values and edge weights `() {
+    fun `show vertex values and edge weights`() {
         graph = DirectedGraph().apply { addEdge(2, 1, 0) }
         viewModel = MainScreenViewModelForDirectedGraph(graph, representationStrategy)
         viewModel.showVerticesElements = true

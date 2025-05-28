@@ -85,26 +85,6 @@ class MainScreenViewModelForUndirectedGraph(
         }
     }
 
-    fun findPathFordBellman(
-        firstVertex: Long,
-        secondVertex: Long,
-    ) {
-        val path = fordBellman(graph, firstVertex, secondVertex) ?: return
-        for (i in 0..path.size - 2) {
-            graphViewModel.setEdgeColor(
-                path[i],
-                path[i + 1],
-                Color(0xFF1E88E5),
-            )
-
-            graphViewModel.setEdgeWidth(
-                path[i],
-                path[i + 1],
-                graphViewModel.defaultEdgesWidth * 3,
-            )
-        }
-    }
-
     fun highlightKeyVertices() {
         val verticesRanks: Map<Long, Double> = leaderRank(graph)
         val defaultRadius: Dp = graphViewModel.defaultVertexRadius

@@ -1,7 +1,7 @@
 package model
 
 fun fordBellman(
-    graph: Graph,
+    graph: DirectedGraph,
     start: Long,
     end: Long,
 ): List<Long>? {
@@ -29,19 +29,6 @@ fun fordBellman(
                 predecessors[v] = u
                 updated = true
             }
-
-            if (graph is UndirectedGraph) {
-                val vDist = distances[v] ?: infinity
-                if (vDist == infinity) return@forEach
-
-                val newDistReverse = vDist + edge.weight
-                val uDistCurrent = distances[u] ?: infinity
-                if (newDistReverse < uDistCurrent) {
-                    distances[u] = newDistReverse
-                    predecessors[u] = v
-                    updated = true
-                }
-            }
         }
         if (!updated) return@repeat
     }
@@ -56,13 +43,6 @@ fun fordBellman(
         val vDist = distances[v] ?: infinity
         if (uDist + edge.weight < vDist) {
             return null
-        }
-
-        // Для ненаправленного графа
-        if (graph is UndirectedGraph) {
-            if (vDist + edge.weight < uDist) {
-                return null
-            }
         }
     }
 

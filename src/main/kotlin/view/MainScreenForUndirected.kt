@@ -63,18 +63,13 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
     var showAnalyzeMenu by remember { mutableStateOf(false) }
     var showSaveMenu by remember { mutableStateOf(false) }
     var showExitDialog by remember { mutableStateOf(false) }
-    var findPathAlgorithm by remember { mutableStateOf("") }
     val navigator = LocalNavigator.currentOrThrow
 
     LaunchedEffect(Unit) {
         snapshotFlow { viewModel.graphViewModel.verticesToFindPath }
             .collect { pathList ->
                 if (pathList.size == 2) {
-                    if (findPathAlgorithm == "dijkstra") {
-                        viewModel.findPathDijkstra(pathList[0], pathList[1])
-                    } else if (findPathAlgorithm == "fordBellman") {
-                        viewModel.findPathFordBellman(pathList[0], pathList[1])
-                    }
+                    viewModel.findPathDijkstra(pathList[0], pathList[1])
                     viewModel.graphViewModel.clearVerticesToFindPath()
                     viewModel.graphViewModel.findPathState = false
                 }
@@ -351,14 +346,13 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
                         Button(
                             onClick = {
                                 viewModel.graphViewModel.clearVerticesToFindPath()
-                                findPathAlgorithm = "dijkstra"
                                 viewModel.graphViewModel.findPathState = !viewModel.graphViewModel.findPathState
                             },
                             modifier = Modifier.fillMaxWidth(),
                             colors =
                                 ButtonDefaults.buttonColors(
                                     backgroundColor =
-                                        if (viewModel.graphViewModel.findPathState && findPathAlgorithm == "dijkstra") {
+                                        if (viewModel.graphViewModel.findPathState) {
                                             Color(0xFF1565C0)
                                         } else {
                                             Color(0xFF1976D2)
@@ -368,7 +362,7 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
                         ) {
                             Text(
                                 text =
-                                    if (viewModel.graphViewModel.findPathState && findPathAlgorithm == "dijkstra") {
+                                    if (viewModel.graphViewModel.findPathState) {
                                         "Cancel Dijkstra"
                                     } else {
                                         "Find Path (Dijkstra)"
@@ -378,37 +372,6 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
                         }
                         Spacer(modifier = Modifier.height(8.dp))
                     }
-
-                    Button(
-                        onClick = {
-                            viewModel.graphViewModel.clearVerticesToFindPath()
-                            findPathAlgorithm = "fordBellman"
-                            viewModel.graphViewModel.findPathState = !viewModel.graphViewModel.findPathState
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                        colors =
-                            ButtonDefaults.buttonColors(
-                                backgroundColor =
-                                    if (viewModel.graphViewModel.findPathState && findPathAlgorithm == "fordBellman") {
-                                        Color(0xFF1565C0)
-                                    } else {
-                                        Color(0xFF1976D2)
-                                    },
-                                contentColor = Color.White,
-                            ),
-                    ) {
-                        Text(
-                            text =
-                                if (viewModel.graphViewModel.findPathState && findPathAlgorithm == "fordBellman") {
-                                    "Cancel Ford-Bellman"
-                                } else {
-                                    "Find Path (Ford-Bellman)"
-                                },
-                            fontSize = 18.sp,
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(8.dp))
 
                     Button(
                         onClick = {

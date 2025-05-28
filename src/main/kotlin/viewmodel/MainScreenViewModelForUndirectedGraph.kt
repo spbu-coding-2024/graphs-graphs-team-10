@@ -76,12 +76,6 @@ class MainScreenViewModelForUndirectedGraph(
                 path[i + 1],
                 Color(0xFF1E88E5),
             )
-
-            graphViewModel.setEdgeWidth(
-                path[i],
-                path[i + 1],
-                graphViewModel.defaultEdgesWidth * 3,
-            )
         }
     }
 

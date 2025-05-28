@@ -126,19 +126,11 @@ class MainScreenViewModelForDirectedGraphTest {
         val fourthEdge = edges[3]
 
         val newEdgeColor = Color(0xFF1E88E5)
-        val newEdgeWidth = representationStrategy.defaultEdgesWidth * 3
 
         assertEquals(firstEdge.color, newEdgeColor)
-        assertEquals(firstEdge.width, newEdgeWidth)
-
         assertEquals(secondEdge.color, newEdgeColor)
-        assertEquals(secondEdge.width, newEdgeWidth)
-
         assertEquals(thirdEdge.color, Color.Black)
-        assertEquals(thirdEdge.width, representationStrategy.defaultEdgesWidth)
-
         assertEquals(fourthEdge.color, Color.Black)
-        assertEquals(fourthEdge.width, representationStrategy.defaultEdgesWidth)
     }
 
     @Test

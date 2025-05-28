@@ -145,12 +145,12 @@ fun MainScreenForDirected(viewModel: MainScreenViewModelForDirectedGraph) {
                                 modifier = Modifier.padding(16.dp),
                             ) {
                                 Text(
-                                    "Подтверждение выхода",
+                                    "Exit confirmation",
                                     style = MaterialTheme.typography.h6,
                                     modifier = Modifier.padding(bottom = 12.dp),
                                 )
                                 Text(
-                                    "Вы уверены, что хотите выйти? Все несохраненные изменения будут утеряны.",
+                                    "Are you sure you want to leave? All unsaved changes will be lost.",
                                     style = MaterialTheme.typography.body1,
                                     modifier = Modifier.padding(bottom = 16.dp),
                                 )
@@ -162,7 +162,7 @@ fun MainScreenForDirected(viewModel: MainScreenViewModelForDirectedGraph) {
                                         onClick = { showExitDialog = false },
                                         modifier = Modifier.padding(end = 8.dp),
                                     ) {
-                                        Text("Отмена")
+                                        Text("Cancel")
                                     }
                                     TextButton(
                                         onClick = { navigator.pop() },
@@ -171,7 +171,7 @@ fun MainScreenForDirected(viewModel: MainScreenViewModelForDirectedGraph) {
                                                 contentColor = MaterialTheme.colors.primary,
                                             ),
                                     ) {
-                                        Text("Да")
+                                        Text("Ok")
                                     }
                                 }
                             }
@@ -612,11 +612,11 @@ fun MainScreenForDirected(viewModel: MainScreenViewModelForDirectedGraph) {
                         onClick = {
                             val filePath: String =
                                 showFileSaveDialog(
-                                    title = "Сохранить файл",
+                                    title = "Save file",
                                     initialDirectory = System.getProperty("user.home"),
                                     defaultFileName = "graph.json",
                                     fileFilter = FileNameExtensionFilter("JSON files", "json"),
-                                ) ?: "Отменено"
+                                ) ?: "Canceled"
                             saveToJson(
                                 viewModel,
                                 filePath,

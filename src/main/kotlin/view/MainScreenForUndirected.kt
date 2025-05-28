@@ -76,6 +76,17 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
             }
     }
 
+    LaunchedEffect(Unit) {
+        snapshotFlow { viewModel.graphViewModel.vertexToFindCycles }
+            .collect { vertex ->
+                if (vertex.size == 1) {
+                    viewModel.findCycles(vertex[0])
+                }
+                viewModel.graphViewModel.clearVertexToFindCycles()
+                viewModel.graphViewModel.findCyclesState = false
+            }
+    }
+
     Box(modifier = Modifier.fillMaxSize()) {
         Surface(modifier = Modifier.fillMaxSize()) {
             ZoomableBox {
@@ -328,16 +339,28 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    Button(
-                        onClick = {},
+                    Button(onClick = {
+                        viewModel.graphViewModel.clearVertexToFindCycles()
+                        viewModel.graphViewModel.findCyclesState = !viewModel.graphViewModel.findCyclesState
+                        viewModel.graphViewModel.findPathState = false
+                    },
                         modifier = Modifier.fillMaxWidth(),
-                        colors =
-                            ButtonDefaults.buttonColors(
-                                backgroundColor = Color(0xFF1976D2),
-                                contentColor = Color.White,
-                            ),
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = if (viewModel.graphViewModel.findCyclesState) {
+                                Color(0xFF1565C0)
+                            } else {
+                                Color(0xFF1976D2)
+                            },
+                            contentColor = Color.White
+                        )
                     ) {
-                        Text("Find cycles", fontSize = 18.sp)
+                        Text(
+                            text = if (viewModel.graphViewModel.findCyclesState) {
+                                "Cancel Find Cycles"
+                            } else {
+                                "Find Cycles"
+                            }, fontSize = 18.sp
+                        )
                     }
 
                     Spacer(modifier = Modifier.height(8.dp))
@@ -347,6 +370,7 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
                             onClick = {
                                 viewModel.graphViewModel.clearVerticesToFindPath()
                                 viewModel.graphViewModel.findPathState = !viewModel.graphViewModel.findPathState
+                                viewModel.graphViewModel.findCyclesState = false
                             },
                             modifier = Modifier.fillMaxWidth(),
                             colors =

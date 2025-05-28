@@ -2,12 +2,12 @@ package viewmodel
 
 import algos.checkGraphForNegativeWeight
 import algos.dijkstra
+import algos.findCyclesForUndirected
 import algos.leaderRank
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import model.UndirectedGraph
-import model.fordBellman
 
 class MainScreenViewModelForUndirectedGraph(
     private val graph: UndirectedGraph,
@@ -82,6 +82,31 @@ class MainScreenViewModelForUndirectedGraph(
                 path[i + 1],
                 graphViewModel.defaultEdgesWidth * 3,
             )
+        }
+    }
+
+    fun findCycles(startVertex: Long) {
+        val cyclesList = findCyclesForUndirected(graph, startVertex)
+        if(cyclesList.isNotEmpty()) {
+            graphViewModel.setVertexColor(
+                startVertex,
+                Color(0xFFFFEB3B)
+            )
+        }
+        cyclesList.forEach { cycle ->
+            for (i in 0..cycle.size - 2){
+                graphViewModel.setEdgeColor(
+                    cycle[i],
+                    cycle[i+1],
+                    Color(0xFFFFEB3B)
+                )
+
+                graphViewModel.setEdgeWidth(
+                    cycle[i],
+                    cycle[i + 1],
+                    graphViewModel.defaultEdgesWidth * 3,
+                )
+            }
         }
     }
 

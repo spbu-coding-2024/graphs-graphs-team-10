@@ -1,6 +1,7 @@
 package viewmodel
 
 import algos.checkGraphForNegativeWeight
+import algos.findCyclesForDirected
 import algos.dijkstra
 import algos.leaderRank
 import algos.scc
@@ -83,6 +84,31 @@ class MainScreenViewModelForDirectedGraph(
                 path[i + 1],
                 graphViewModel.defaultEdgesWidth * 3,
             )
+        }
+    }
+
+    fun findCycles(startVertex: Long) {
+        val cyclesList = findCyclesForDirected(graph, startVertex)
+        if(cyclesList.isNotEmpty()) {
+            graphViewModel.setVertexColor(
+                startVertex,
+                Color(0xFFFFEB3B)
+            )
+        }
+        cyclesList.forEach { cycle ->
+            for (i in 0..cycle.size - 2){
+                graphViewModel.setEdgeColor(
+                    cycle[i],
+                    cycle[i+1],
+                    Color(0xFFFFEB3B)
+                )
+
+                graphViewModel.setEdgeWidth(
+                    cycle[i],
+                    cycle[i + 1],
+                    graphViewModel.defaultEdgesWidth * 3,
+                )
+            }
         }
     }
 

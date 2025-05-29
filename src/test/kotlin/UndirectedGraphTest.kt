@@ -1,3 +1,4 @@
+//author: Arseniy Romanov
 import model.UndirectedGraph
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

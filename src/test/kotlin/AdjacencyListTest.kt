@@ -1,3 +1,4 @@
+//author: Arseniy Romanov
 import algos.getAdjacencyList
 import model.DirectedGraph
 import model.UndirectedGraph

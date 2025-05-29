@@ -1,3 +1,4 @@
+//author: Arseniy Romanov
 import algos.scc
 import model.DirectedGraph
 import org.junit.jupiter.api.Test

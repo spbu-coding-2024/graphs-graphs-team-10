@@ -1,3 +1,4 @@
+//author: Arseniy Romanov
 package intagrationTests
 
 import androidx.compose.ui.graphics.Color

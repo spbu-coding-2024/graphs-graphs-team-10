@@ -1,3 +1,4 @@
+//author: Arseniy Romanov
 import algos.leaderRank
 import model.DirectedGraph
 import model.Graph

@@ -37,6 +37,8 @@ import viewmodel.MainScreenViewModelForUndirectedGraph
 import java.awt.Dimension
 import java.sql.DriverManager
 import java.sql.SQLException
+import java.util.Locale
+import java.util.Locale.getDefault
 import javax.swing.JFileChooser
 import javax.swing.JOptionPane
 
@@ -199,14 +201,43 @@ fun homeScreen() {
                     onClick = {
                         JFileChooser().apply {
                             preferredSize = Dimension(800, 600)
-
-                            dialogTitle = "Select file"
+                            dialogTitle = "Select JSON file"
                             fileSelectionMode = JFileChooser.FILES_ONLY
                             isMultiSelectionEnabled = false
 
                             val result = showOpenDialog(null)
                             if (result == JFileChooser.APPROVE_OPTION) {
-                                filePath = selectedFile.absolutePath
+                                try {
+                                    if (!selectedFile.name.lowercase(getDefault()).endsWith(".json")) {
+                                        JOptionPane.showMessageDialog(
+                                            null,
+                                            "Please select a JSON file",
+                                            "Invalid File Type",
+                                            JOptionPane.ERROR_MESSAGE
+                                        )
+                                        return@Button
+                                    }
+
+                                    filePath = selectedFile.absolutePath
+                                    val mainScreenViewModel = loadMainScreenViewModelFromJson(
+                                        filePath,
+                                        ForceDirectedLayout(),
+                                    )
+
+                                    when (mainScreenViewModel) {
+                                        is MainScreenViewModelForDirectedGraph ->
+                                            navigator.push(GraphScreen(mainScreenViewModel))
+                                        is MainScreenViewModelForUndirectedGraph ->
+                                            navigator.push(GraphScreen(mainScreenViewModel))
+                                    }
+                                } catch (e: Exception) {
+                                    JOptionPane.showMessageDialog(
+                                        null,
+                                        "Error loading JSON file: ${e.message}",
+                                        "Loading Error",
+                                        JOptionPane.ERROR_MESSAGE
+                                    )
+                                }
                             } else {
                                 return@Button
                             }

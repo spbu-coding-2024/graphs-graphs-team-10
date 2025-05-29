@@ -83,8 +83,10 @@ class MainScreenViewModelForDirectedGraph(
         secondVertex: Long,
     ) {
         val path = dijkstra(graph, firstVertex, secondVertex) ?: return
-        graphViewModel.setVertexColor(firstVertex, Color(0xFF1E88E5))
-        graphViewModel.setVertexColor(secondVertex, Color(0xFF1E88E5))
+        if (path.isNotEmpty()) {
+            graphViewModel.setVertexColor(firstVertex, Color(0xFF1E88E5))
+            graphViewModel.setVertexColor(secondVertex, Color(0xFF1E88E5))
+        }
         for (i in 0..path.size - 2) {
             graphViewModel.setEdgeColor(
                 path[i],
@@ -144,7 +146,7 @@ class MainScreenViewModelForDirectedGraph(
         val defaultRadius: Dp = graphViewModel.defaultVertexRadius
 
         val minRank = verticesRanks.values.minOrNull() ?: return
-        val maxRank = verticesRanks.values.maxOrNull() ?: return
+        val maxRank = verticesRanks.values.max()
 
         val range = maxRank - minRank
         if (range == 0.0) return

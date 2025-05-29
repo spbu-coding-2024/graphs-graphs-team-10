@@ -6,6 +6,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,6 +40,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -553,39 +555,60 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
                                 repository.close()
                             }
                         },
-                        modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 8.dp),
-                        colors =
-                            ButtonDefaults.buttonColors(
-                                backgroundColor = Color.White,
-                                contentColor = Color(0xFF1976D2),
-                            ),
-                        elevation =
-                            ButtonDefaults.elevation(
-                                defaultElevation = 2.dp,
-                                pressedElevation = 4.dp,
-                            ),
-                        shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp)
+                            .padding(vertical = 8.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Color(0xFF0181FF),
+                            contentColor = Color.White,
+                        ),
+                        shape = RoundedCornerShape(10.dp),
+                        elevation = ButtonDefaults.elevation(
+                            defaultElevation = 4.dp,
+                            pressedElevation = 2.dp,
+                            hoveredElevation = 6.dp
+                        ),
+                        border = BorderStroke(1.5.dp, Color(0xFF0066CC))
                     ) {
-                        Text("SQLite", style = MaterialTheme.typography.button)
+                        Text(
+                            "SQLite",
+                            style = MaterialTheme.typography.button.copy(
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                                letterSpacing = 0.5.sp
+                            ),
+                            modifier = Modifier.padding(horizontal = 4.dp)
+                        )
                     }
 
                     Button(
-                        onClick = { },
-                        modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 8.dp),
-                        colors =
-                            ButtonDefaults.buttonColors(
-                                backgroundColor = Color.White,
-                                contentColor = Color(0xFF1976D2),
-                            ),
-                        shape = RoundedCornerShape(8.dp),
+                        onClick = {},
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp)
+                            .padding(vertical = 8.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Color(0xFF0181FF),
+                            contentColor = Color.White,
+                        ),
+                        shape = RoundedCornerShape(10.dp),
+                        elevation = ButtonDefaults.elevation(
+                            defaultElevation = 4.dp,
+                            pressedElevation = 2.dp,
+                            hoveredElevation = 6.dp
+                        ),
+                        border = BorderStroke(1.5.dp, Color(0xFF0066CC))
                     ) {
-                        Text("Neo4j", style = MaterialTheme.typography.button)
+                        Text(
+                            "Neo4j",
+                            style = MaterialTheme.typography.button.copy(
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                                letterSpacing = 0.5.sp
+                            ),
+                            modifier = Modifier.padding(horizontal = 4.dp)
+                        )
                     }
 
                     Button(
@@ -602,18 +625,31 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
                                 filePath,
                             )
                         },
-                        modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 8.dp),
-                        colors =
-                            ButtonDefaults.buttonColors(
-                                backgroundColor = Color.White,
-                                contentColor = Color(0xFF1976D2),
-                            ),
-                        shape = RoundedCornerShape(8.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp)
+                            .padding(vertical = 8.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Color(0xFF0181FF),
+                            contentColor = Color.White,
+                        ),
+                        shape = RoundedCornerShape(10.dp),
+                        elevation = ButtonDefaults.elevation(
+                            defaultElevation = 4.dp,
+                            pressedElevation = 2.dp,
+                            hoveredElevation = 6.dp
+                        ),
+                        border = BorderStroke(1.5.dp, Color(0xFF0066CC))
                     ) {
-                        Text("Json", style = MaterialTheme.typography.button)
+                        Text(
+                            "Json",
+                            style = MaterialTheme.typography.button.copy(
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                                letterSpacing = 0.5.sp
+                            ),
+                            modifier = Modifier.padding(horizontal = 4.dp)
+                        )
                     }
                 }
             }

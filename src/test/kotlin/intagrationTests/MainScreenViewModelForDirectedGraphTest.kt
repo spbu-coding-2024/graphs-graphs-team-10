@@ -118,19 +118,21 @@ class MainScreenViewModelForDirectedGraphTest {
             }
         viewModel = MainScreenViewModelForDirectedGraph(graph, representationStrategy)
         viewModel.findPathDijkstra(1, 4)
-        val edges = viewModel.graphViewModel.edges.toList().sortedBy { it.weight }
+        val newColor = Color(0xFF1E88E5)
 
-        val firstEdge = edges[0]
-        val secondEdge = edges[1]
-        val thirdEdge = edges[2]
-        val fourthEdge = edges[3]
+        viewModel.graphViewModel.edges.forEach {
+            when (it.weight){
+                "1", "2" -> assertEquals(it.color, newColor)
+                "3", "4" -> assertEquals(it.color, Color.Black)
+            }
+        }
 
-        val newEdgeColor = Color(0xFF1E88E5)
-
-        assertEquals(firstEdge.color, newEdgeColor)
-        assertEquals(secondEdge.color, newEdgeColor)
-        assertEquals(thirdEdge.color, Color.Black)
-        assertEquals(fourthEdge.color, Color.Black)
+        viewModel.graphViewModel.vertices.forEach {
+            when (it.value){
+                1L, 4L -> assertEquals(newColor, it.color)
+                2L, 3L -> assertEquals(Color.Gray, it.color)
+            }
+        }
     }
 
     @Test
@@ -145,6 +147,9 @@ class MainScreenViewModelForDirectedGraphTest {
 
         viewModel.graphViewModel.edges.forEach {
             assertEquals(Color.Black, it.color)
+        }
+        viewModel.graphViewModel.vertices.forEach {
+            assertEquals(Color.Gray, it.color)
         }
     }
 
@@ -162,6 +167,9 @@ class MainScreenViewModelForDirectedGraphTest {
         viewModel.graphViewModel.edges.forEach {
             assertEquals(Color.Black, it.color)
         }
+        viewModel.graphViewModel.vertices.forEach {
+            assertEquals(Color.Gray, it.color)
+        }
     }
 
     @Test
@@ -176,6 +184,9 @@ class MainScreenViewModelForDirectedGraphTest {
 
         viewModel.graphViewModel.edges.forEach {
             assertEquals(Color.Black, it.color)
+        }
+        viewModel.graphViewModel.vertices.forEach {
+            assertEquals(Color.Gray, it.color)
         }
     }
 
@@ -341,19 +352,20 @@ class MainScreenViewModelForDirectedGraphTest {
             }
         viewModel = MainScreenViewModelForDirectedGraph(graph, representationStrategy)
         viewModel.findPathFordBellman(1, 4)
-        val edges = viewModel.graphViewModel.edges.toList().sortedBy { it.weight }
+        val newColor = Color(0xFF1E88E5)
 
-        val firstEdge = edges[0]
-        val secondEdge = edges[1]
-        val thirdEdge = edges[2]
-        val fourthEdge = edges[3]
-
-        val newEdgeColor = Color(0xFF1E88E5)
-
-        assertEquals(firstEdge.color, newEdgeColor)
-        assertEquals(secondEdge.color, newEdgeColor)
-        assertEquals(thirdEdge.color, Color.Black)
-        assertEquals(fourthEdge.color, Color.Black)
+        viewModel.graphViewModel.edges.forEach {
+            when (it.weight){
+                "1", "2" -> assertEquals(it.color, newColor)
+                "3", "4" -> assertEquals(it.color, Color.Black)
+            }
+        }
+        viewModel.graphViewModel.vertices.forEach {
+            when (it.value){
+                1L, 4L -> assertEquals(newColor, it.color)
+                2L, 3L -> assertEquals(Color.Gray, it.color)
+            }
+        }
     }
 
     @Test
@@ -369,6 +381,9 @@ class MainScreenViewModelForDirectedGraphTest {
         viewModel.graphViewModel.edges.forEach {
             assertEquals(Color.Black, it.color)
         }
+        viewModel.graphViewModel.vertices.forEach {
+            assertEquals(Color.Gray, it.color)
+        }
     }
 
     @Test
@@ -378,22 +393,24 @@ class MainScreenViewModelForDirectedGraphTest {
                 addEdge(1, 2, 1)
 
                 addEdge(3, 4, -5)
-                addEdge(4, 2, 4)
+                addEdge(4, 3, 4)
             }
         viewModel = MainScreenViewModelForDirectedGraph(graph, representationStrategy)
         viewModel.findPathFordBellman(1, 2)
+        val newColor = Color(0xFF1E88E5)
 
-        val edges = viewModel.graphViewModel.edges.toList().sortedBy { it.firstVertex.value }
-
-        val firstEdge = edges[0]
-        val secondEdge = edges[1]
-        val thirdEdge = edges[2]
-
-        val newEdgeColor = Color(0xFF1E88E5)
-
-        assertEquals(firstEdge.color, newEdgeColor)
-        assertEquals(secondEdge.color, Color.Black)
-        assertEquals(thirdEdge.color, Color.Black)
+        viewModel.graphViewModel.edges.forEach {
+            when (it.firstVertex.value){
+                1L -> assertEquals(newColor, it.color)
+                3L, 4L -> assertEquals(Color.Black, it.color)
+            }
+        }
+        viewModel.graphViewModel.vertices.forEach {
+            when (it.value){
+                1L, 2L -> assertEquals(newColor, it.color)
+                3L, 4L -> assertEquals(Color.Gray, it.color)
+            }
+        }
     }
 
     @Test
@@ -408,6 +425,9 @@ class MainScreenViewModelForDirectedGraphTest {
 
         viewModel.graphViewModel.edges.forEach {
             assertEquals(Color.Black, it.color)
+        }
+        viewModel.graphViewModel.vertices.forEach {
+            assertEquals(Color.Gray, it.color)
         }
     }
 
@@ -424,5 +444,10 @@ class MainScreenViewModelForDirectedGraphTest {
         viewModel.graphViewModel.edges.forEach {
             assertEquals(Color.Black, it.color)
         }
+        viewModel.graphViewModel.vertices.forEach {
+            assertEquals(Color.Gray, it.color)
+        }
     }
+
+
 }

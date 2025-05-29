@@ -282,7 +282,7 @@ fun MainScreenForDirected(viewModel: MainScreenViewModelForDirectedGraph) {
                     Button(
                         onClick = {
                             showSaveMenu = false
-                            viewModel.resetPlacement()
+                            viewModel.makeNewPlacement()
                         },
                         modifier = Modifier.fillMaxWidth(),
                         colors =
@@ -291,7 +291,7 @@ fun MainScreenForDirected(viewModel: MainScreenViewModelForDirectedGraph) {
                                 contentColor = Color.White,
                             ),
                     ) {
-                        Text("Reset placement", fontSize = 18.sp)
+                        Text("New placement", fontSize = 18.sp)
                     }
 
                     Spacer(modifier = Modifier.height(8.dp))

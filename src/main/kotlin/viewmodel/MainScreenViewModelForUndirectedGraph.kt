@@ -97,10 +97,20 @@ class MainScreenViewModelForUndirectedGraph(
                     cycle[i+1],
                     Color(0xFF800020)
                 )
+                graphViewModel.setEdgeColor(
+                    cycle[i],
+                    cycle[i],
+                    Color(0xFF800020)
+                )
             }
             graphViewModel.setEdgeColor(
                 cycle[cycle.size - 1],
                 cycle[0],
+                Color(0xFF800020)
+            )
+            graphViewModel.setEdgeColor(
+                cycle[cycle.size - 1],
+                cycle[cycle.size - 1],
                 Color(0xFF800020)
             )
         }

@@ -142,16 +142,20 @@ fun homeScreen() {
                         }
 
                         val graphArray = graphs.toTypedArray()
-                        val selectedGraph =
-                            JOptionPane.showInputDialog(
-                                null,
-                                "Select graph:",
-                                "Graph Selection",
-                                JOptionPane.QUESTION_MESSAGE,
-                                null,
-                                graphArray,
-                                graphArray.first(),
-                            ) as? String ?: throw NoSuchElementException()
+                        val selectedGraph = JOptionPane.showInputDialog(
+                            null,
+                            "Select graph:",
+                            "Graph Selection",
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,
+                            graphArray,
+                            graphArray.first()
+                        ) as? String
+
+                        if (selectedGraph == null) {
+                            repository.close()
+                            return@Button
+                        }
 
                         val viewModel = repository.loadGraph(selectedGraph)
                         navigator.push(GraphScreen(viewModel))

@@ -89,6 +89,21 @@ class MainScreenViewModelForDirectedGraphTest {
         }
     }
 
+    @Test
+    fun `make new placement`(){
+        graph = DirectedGraph().apply { addEdge(1, 2, 0) }
+        viewModel = MainScreenViewModelForDirectedGraph(graph, representationStrategy)
+        viewModel.makeNewPlacement()
+        verify(exactly = 2) {
+            representationStrategy.place(
+                width = 1800.0,
+                height = 1050.0,
+                vertices = viewModel.graphViewModel.vertices,
+                edges = viewModel.graphViewModel.edges,
+            )
+        }
+    }
+
     // ====================================
     // checkForNegativeWeights
     // ====================================

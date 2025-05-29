@@ -37,7 +37,7 @@ fun loopEdgeView(
                 .zIndex(-2f),
     ) {
         drawCircle(
-            color = Color.Black,
+            color = viewModel.color,
             radius = loopRadius,
             center = center,
             style = Stroke(width = viewModel.width),

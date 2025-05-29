@@ -78,37 +78,29 @@ class MainScreenViewModelForDirectedGraph(
                 path[i + 1],
                 Color(0xFF1E88E5),
             )
-
-            graphViewModel.setEdgeWidth(
-                path[i],
-                path[i + 1],
-                graphViewModel.defaultEdgesWidth * 3,
-            )
         }
     }
 
     fun findCycles(startVertex: Long) {
         val cyclesList = findCyclesForDirected(graph, startVertex)
-        if(cyclesList.isNotEmpty()) {
-            graphViewModel.setVertexColor(
-                startVertex,
-                Color(0xFFFFEB3B)
-            )
-        }
+        if (cyclesList.isEmpty()) return
+        graphViewModel.setVertexColor(
+            startVertex,
+            Color(0xFF800020)
+        )
         cyclesList.forEach { cycle ->
             for (i in 0..cycle.size - 2){
                 graphViewModel.setEdgeColor(
                     cycle[i],
                     cycle[i+1],
-                    Color(0xFFFFEB3B)
-                )
-
-                graphViewModel.setEdgeWidth(
-                    cycle[i],
-                    cycle[i + 1],
-                    graphViewModel.defaultEdgesWidth * 3,
+                    Color(0xFF800020)
                 )
             }
+            graphViewModel.setEdgeColor(
+                cycle[cycle.size - 1],
+                cycle[0],
+                Color(0xFF800020)
+            )
         }
     }
 
@@ -122,12 +114,6 @@ class MainScreenViewModelForDirectedGraph(
                 path[i],
                 path[i + 1],
                 Color(0xFF1E88E5),
-            )
-
-            graphViewModel.setEdgeWidth(
-                path[i],
-                path[i + 1],
-                graphViewModel.defaultEdgesWidth * 3,
             )
         }
     }

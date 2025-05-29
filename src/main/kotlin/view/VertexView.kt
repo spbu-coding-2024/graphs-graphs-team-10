@@ -22,11 +22,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastAll
 import androidx.compose.ui.zIndex
 import kotlinx.coroutines.delay
@@ -65,7 +63,8 @@ fun vertexView(
     Box(
         modifier =
             modifier
-                .offset(viewModel.x, viewModel.y),
+                .offset(viewModel.x, viewModel.y)
+                .zIndex(1 / viewModel.radius.value)
     ) {
         Box(
             modifier =
@@ -132,7 +131,7 @@ fun vertexView(
                 modifier =
                     Modifier
                         .align(Alignment.Center)
-                        .zIndex(1f),
+                        .zIndex(100f),
             )
         }
     }

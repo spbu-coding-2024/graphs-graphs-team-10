@@ -30,7 +30,7 @@ import kotlin.test.assertNotNull
 * 5 step: checking the loaded viewmodel for compliance with original
 * */
 
-class GraphSaveAndLoadTest {
+class JsonSaveAndLoadTest {
     @TempDir
     lateinit var tempDir: File
 

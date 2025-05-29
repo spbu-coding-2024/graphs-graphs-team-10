@@ -108,7 +108,7 @@ class MainScreenViewModelForDirectedGraphTest {
     }
 
     @Test
-    fun `dijkstra test`() {
+    fun `Dijkstra test`() {
         graph =
             DirectedGraph().apply {
                 addEdge(1, 2, 1)
@@ -134,7 +134,7 @@ class MainScreenViewModelForDirectedGraphTest {
     }
 
     @Test
-    fun `find a non-existent path`() {
+    fun `Dijkstra find a non-existent path`() {
         graph =
             DirectedGraph().apply {
                 addEdge(1, 2, 1)
@@ -144,13 +144,28 @@ class MainScreenViewModelForDirectedGraphTest {
         viewModel.findPathDijkstra(1, 4)
 
         viewModel.graphViewModel.edges.forEach {
-            it.width = viewModel.graphViewModel.defaultEdgesWidth
-            it.color = Color.Black
+            assertEquals(Color.Black, it.color)
         }
     }
 
     @Test
-    fun `find path between non-existent vertices`() {
+    fun `Dijkstra find path in graph with negative weights`(){
+        graph =
+            DirectedGraph().apply {
+                addEdge(1, 2, 1)
+                addEdge(2, 3, 1)
+                addEdge(3, 4, -1)
+                addEdge(4, 1, 1)
+            }
+        viewModel = MainScreenViewModelForDirectedGraph(graph, representationStrategy)
+        viewModel.findPathDijkstra(1, 4)
+        viewModel.graphViewModel.edges.forEach {
+            assertEquals(Color.Black, it.color)
+        }
+    }
+
+    @Test
+    fun `Dijkstra find path between non-existent vertices`() {
         graph =
             DirectedGraph().apply {
                 addEdge(1, 2, 1)
@@ -160,8 +175,7 @@ class MainScreenViewModelForDirectedGraphTest {
         viewModel.findPathDijkstra(5, 6)
 
         viewModel.graphViewModel.edges.forEach {
-            it.width = viewModel.graphViewModel.defaultEdgesWidth
-            it.color = Color.Black
+            assertEquals(Color.Black, it.color)
         }
     }
 
@@ -314,5 +328,101 @@ class MainScreenViewModelForDirectedGraphTest {
 
         assertTrue(viewModel.showVerticesElements)
         assertTrue(viewModel.showEdgesWeights)
+    }
+
+    @Test
+    fun `Ford Bellman test`(){
+        graph =
+            DirectedGraph().apply {
+                addEdge(1, 2, 1)
+                addEdge(1, 3, 3)
+                addEdge(3, 4, 4)
+                addEdge(2, 4, 2)
+            }
+        viewModel = MainScreenViewModelForDirectedGraph(graph, representationStrategy)
+        viewModel.findPathFordBellman(1, 4)
+        val edges = viewModel.graphViewModel.edges.toList().sortedBy { it.weight }
+
+        val firstEdge = edges[0]
+        val secondEdge = edges[1]
+        val thirdEdge = edges[2]
+        val fourthEdge = edges[3]
+
+        val newEdgeColor = Color(0xFF1E88E5)
+
+        assertEquals(firstEdge.color, newEdgeColor)
+        assertEquals(secondEdge.color, newEdgeColor)
+        assertEquals(thirdEdge.color, Color.Black)
+        assertEquals(fourthEdge.color, Color.Black)
+    }
+
+    @Test
+    fun `Ford Bellman with negative cycle`(){
+        graph =
+            DirectedGraph().apply {
+                addEdge(1, 2, 3)
+                addEdge(2, 1, -4)
+            }
+        viewModel = MainScreenViewModelForDirectedGraph(graph, representationStrategy)
+        viewModel.findPathFordBellman(1, 2)
+
+        viewModel.graphViewModel.edges.forEach {
+            assertEquals(Color.Black, it.color)
+        }
+    }
+
+    @Test
+    fun `Ford Bellman with unreachable negative cycle`(){
+        graph =
+            DirectedGraph().apply {
+                addEdge(1, 2, 1)
+
+                addEdge(3, 4, -5)
+                addEdge(4, 2, 4)
+            }
+        viewModel = MainScreenViewModelForDirectedGraph(graph, representationStrategy)
+        viewModel.findPathFordBellman(1, 2)
+
+        val edges = viewModel.graphViewModel.edges.toList().sortedBy { it.firstVertex.value }
+
+        val firstEdge = edges[0]
+        val secondEdge = edges[1]
+        val thirdEdge = edges[2]
+
+        val newEdgeColor = Color(0xFF1E88E5)
+
+        assertEquals(firstEdge.color, newEdgeColor)
+        assertEquals(secondEdge.color, Color.Black)
+        assertEquals(thirdEdge.color, Color.Black)
+    }
+
+    @Test
+    fun `Ford Bellman find a non-existent path`() {
+        graph =
+            DirectedGraph().apply {
+                addEdge(1, 2, 1)
+                addEdge(3, 4, 1)
+            }
+        viewModel = MainScreenViewModelForDirectedGraph(graph, representationStrategy)
+        viewModel.findPathFordBellman(1, 4)
+
+        viewModel.graphViewModel.edges.forEach {
+            assertEquals(Color.Black, it.color)
+        }
+    }
+
+    @Test
+    fun `Ford Bellman find path between non-existent vertices`() {
+        graph =
+            DirectedGraph().apply {
+                addEdge(1, 2, 1)
+                addEdge(3, 4, 1)
+            }
+        viewModel = MainScreenViewModelForDirectedGraph(graph, representationStrategy)
+        viewModel.findPathFordBellman(5, 6)
+
+        viewModel.graphViewModel.edges.forEach {
+            assertEquals(Color.Black, it.color)
+        }
     }
 }

@@ -91,27 +91,27 @@ class MainScreenViewModelForUndirectedGraph(
         val cyclesList = findCyclesForUndirected(graph, startVertex)
         if (cyclesList.isEmpty()) return
         cyclesList.forEach { cycle ->
-            for (i in 0..cycle.size - 2){
+            for (i in 0..cycle.size - 2) {
                 graphViewModel.setEdgeColor(
                     cycle[i],
-                    cycle[i+1],
-                    Color(0xFF800020)
+                    cycle[i + 1],
+                    Color(0xFF800020),
                 )
                 graphViewModel.setEdgeColor(
                     cycle[i],
                     cycle[i],
-                    Color(0xFF800020)
+                    Color(0xFF800020),
                 )
             }
             graphViewModel.setEdgeColor(
                 cycle[cycle.size - 1],
                 cycle[0],
-                Color(0xFF800020)
+                Color(0xFF800020),
             )
             graphViewModel.setEdgeColor(
                 cycle[cycle.size - 1],
                 cycle[cycle.size - 1],
-                Color(0xFF800020)
+                Color(0xFF800020),
             )
         }
     }

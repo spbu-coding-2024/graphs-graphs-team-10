@@ -1,8 +1,8 @@
 package viewmodel
 
 import algos.checkGraphForNegativeWeight
-import algos.findCyclesForDirected
 import algos.dijkstra
+import algos.findCyclesForDirected
 import algos.leaderRank
 import algos.scc
 import androidx.compose.runtime.mutableStateOf
@@ -53,16 +53,6 @@ class MainScreenViewModelForDirectedGraph(
 
     fun checkForNegativeWeights(): Boolean = checkGraphForNegativeWeight(graph)
 
-    fun resetGraphView() {
-        representationStrategy.place(
-            1800.0,
-            1050.0,
-            graphViewModel.vertices,
-            graphViewModel.edges,
-        )
-        graphViewModel.reset()
-    }
-
     fun defaultVertices() {
         representationStrategy.resetVertices(graphViewModel.vertices)
     }
@@ -93,27 +83,27 @@ class MainScreenViewModelForDirectedGraph(
         val cyclesList = findCyclesForDirected(graph, startVertex)
         if (cyclesList.isEmpty()) return
         cyclesList.forEach { cycle ->
-            for (i in 0..cycle.size - 2){
+            for (i in 0..cycle.size - 2) {
                 graphViewModel.setEdgeColor(
                     cycle[i],
-                    cycle[i+1],
-                    Color(0xFF800020)
+                    cycle[i + 1],
+                    Color(0xFF800020),
                 )
                 graphViewModel.setEdgeColor(
                     cycle[i],
                     cycle[i],
-                    Color(0xFF800020)
+                    Color(0xFF800020),
                 )
             }
             graphViewModel.setEdgeColor(
                 cycle[cycle.size - 1],
                 cycle[0],
-                Color(0xFF800020)
+                Color(0xFF800020),
             )
             graphViewModel.setEdgeColor(
                 cycle[cycle.size - 1],
                 cycle[cycle.size - 1],
-                Color(0xFF800020)
+                Color(0xFF800020),
             )
         }
     }

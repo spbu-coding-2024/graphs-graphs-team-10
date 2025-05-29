@@ -39,8 +39,9 @@ class VertexViewModel(
     var radius: Dp
         get() = _radius.value
         set(value) {
-            if (value.value > 0.01 && value.value < 200.0)
+            if (value.value > 0.01 && value.value < 200.0) {
                 _radius.value = value
+            }
         }
 
     val value
@@ -58,7 +59,7 @@ class VertexViewModel(
         if (graphViewModel.findPathState) {
             graphViewModel.addVertexToFindPath(this.v)
         }
-        if(graphViewModel.findCyclesState) {
+        if (graphViewModel.findCyclesState) {
             graphViewModel.addVertexToFindCycles(this.v)
         }
     }

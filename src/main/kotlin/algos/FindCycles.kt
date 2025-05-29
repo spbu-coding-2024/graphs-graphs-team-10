@@ -3,15 +3,18 @@ package algos
 import model.DirectedGraph
 import model.UndirectedGraph
 
-fun findCyclesForDirected(graph: DirectedGraph, startVertex: Long) : List<List<Long>>{
+fun findCyclesForDirected(
+    graph: DirectedGraph,
+    startVertex: Long,
+): List<List<Long>>  {
     val adjList = getAdjacencyList(graph)
     val visited = mutableSetOf<Long>()
     val recursionStack = mutableSetOf<Long>()
     val path = mutableListOf<Long>()
     val cycles = mutableListOf<List<Long>>()
 
-    fun dfs(current : Long){
-        when{
+    fun dfs(current: Long)  {
+        when {
             recursionStack.contains(current) -> {
                 val cycleStartIndex = path.indexOf(current)
                 if (cycleStartIndex != -1) {
@@ -43,7 +46,10 @@ fun findCyclesForDirected(graph: DirectedGraph, startVertex: Long) : List<List<L
     }
 }
 
-fun findCyclesForUndirected(graph: UndirectedGraph, startVertex: Long): List<List<Long>> {
+fun findCyclesForUndirected(
+    graph: UndirectedGraph,
+    startVertex: Long,
+): List<List<Long>> {
     val adjList = getAdjacencyList(graph)
     val visited = mutableSetOf<Long>()
     val cycles = mutableListOf<List<Long>>()

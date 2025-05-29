@@ -31,7 +31,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import saving.GraphRepository
 import saving.loadMainScreenViewModelFromJson
-import viewmodel.ForceAtlas2Layout
+import viewmodel.ForceDirectedLayout
 import viewmodel.MainScreenViewModelForDirectedGraph
 import viewmodel.MainScreenViewModelForUndirectedGraph
 import java.awt.Dimension
@@ -215,7 +215,7 @@ fun homeScreen() {
                         val mainScreenViewModel =
                             loadMainScreenViewModelFromJson(
                                 filePath,
-                                ForceAtlas2Layout(),
+                                ForceDirectedLayout(),
                             )
 
                         when (mainScreenViewModel) {

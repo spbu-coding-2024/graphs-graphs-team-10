@@ -40,7 +40,7 @@ class MainScreenViewModelForDirectedGraphTest {
         viewModel = MainScreenViewModelForDirectedGraph(graph, representationStrategy)
         verify {
             representationStrategy.place(
-                width = 1050.0,
+                width = 1800.0,
                 height = 1050.0,
                 vertices = viewModel.graphViewModel.vertices,
                 edges = viewModel.graphViewModel.edges,
@@ -55,7 +55,7 @@ class MainScreenViewModelForDirectedGraphTest {
         viewModel.resetGraphView()
         verify(exactly = 2) {
             representationStrategy.place(
-                width = 1050.0,
+                width = 1800.0,
                 height = 1050.0,
                 vertices = viewModel.graphViewModel.vertices,
                 edges = viewModel.graphViewModel.edges,

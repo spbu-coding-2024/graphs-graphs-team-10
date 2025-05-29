@@ -40,18 +40,29 @@ class MainScreenViewModelForDirectedGraph(
 
     init {
         representationStrategy.place(
-            1050.0,
+            1800.0,
             1050.0,
             graphViewModel.vertices,
             graphViewModel.edges,
         )
+        graphViewModel.vertices.forEach { vertex ->
+            vertex.xStartPosition = vertex.x
+            vertex.yStartPosition = vertex.y
+        }
+    }
+
+    fun resetPlacement() {
+        graphViewModel.vertices.forEach { vertex ->
+            vertex.x = vertex.xStartPosition
+            vertex.y = vertex.yStartPosition
+        }
     }
 
     fun checkForNegativeWeights(): Boolean = checkGraphForNegativeWeight(graph)
 
     fun resetGraphView() {
         representationStrategy.place(
-            1050.0,
+            1800.0,
             1050.0,
             graphViewModel.vertices,
             graphViewModel.edges,
@@ -72,6 +83,8 @@ class MainScreenViewModelForDirectedGraph(
         secondVertex: Long,
     ) {
         val path = dijkstra(graph, firstVertex, secondVertex) ?: return
+        graphViewModel.setVertexColor(firstVertex, Color(0xFF1E88E5))
+        graphViewModel.setVertexColor(secondVertex, Color(0xFF1E88E5))
         for (i in 0..path.size - 2) {
             graphViewModel.setEdgeColor(
                 path[i],
@@ -84,10 +97,6 @@ class MainScreenViewModelForDirectedGraph(
     fun findCycles(startVertex: Long) {
         val cyclesList = findCyclesForDirected(graph, startVertex)
         if (cyclesList.isEmpty()) return
-        graphViewModel.setVertexColor(
-            startVertex,
-            Color(0xFF800020)
-        )
         cyclesList.forEach { cycle ->
             for (i in 0..cycle.size - 2){
                 graphViewModel.setEdgeColor(
@@ -109,6 +118,8 @@ class MainScreenViewModelForDirectedGraph(
         secondVertex: Long,
     ) {
         val path = fordBellman(graph, firstVertex, secondVertex) ?: return
+        graphViewModel.setVertexColor(firstVertex, Color(0xFF1E88E5))
+        graphViewModel.setVertexColor(secondVertex, Color(0xFF1E88E5))
         for (i in 0..path.size - 2) {
             graphViewModel.setEdgeColor(
                 path[i],

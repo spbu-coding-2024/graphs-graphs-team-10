@@ -278,6 +278,7 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
                     Button(
                         onClick = {
                             showSaveMenu = false
+                            viewModel.resetPlacement()
                         },
                         modifier = Modifier.fillMaxWidth(),
                         colors =

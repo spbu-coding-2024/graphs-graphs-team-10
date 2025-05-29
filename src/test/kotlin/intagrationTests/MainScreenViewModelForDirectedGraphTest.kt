@@ -150,6 +150,23 @@ class MainScreenViewModelForDirectedGraphTest {
     }
 
     @Test
+    fun `find path in graph with negative weights`(){
+        graph =
+            DirectedGraph().apply {
+                addEdge(1, 2, 1)
+                addEdge(2, 3, 1)
+                addEdge(3, 4, -1)
+                addEdge(4, 1, 1)
+            }
+        viewModel = MainScreenViewModelForDirectedGraph(graph, representationStrategy)
+        viewModel.findPathDijkstra(1, 4)
+        viewModel.graphViewModel.edges.forEach {
+            it.width = viewModel.graphViewModel.defaultEdgesWidth
+            it.color = Color.Black
+        }
+    }
+
+    @Test
     fun `find path between non-existent vertices`() {
         graph =
             DirectedGraph().apply {

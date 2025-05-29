@@ -23,7 +23,7 @@ class ForceDirectedLayout : RepresentationStrategy {
         width: Double,
         height: Double,
         vertices: Collection<VertexViewModel>,
-        edges: Collection<EdgeViewModel>
+        edges: Collection<EdgeViewModel>,
     ) {
         val area = width * height
         val optimalDistance = sqrt(area / vertices.size)
@@ -53,14 +53,17 @@ class ForceDirectedLayout : RepresentationStrategy {
 
                         val dx = (currentVertex.x - otherVertex.x).toPx()
                         val dy = (currentVertex.y - otherVertex.y).toPx()
-                        val distance = max(sqrt((dx*dx + dy*dy).toDouble()), 0.1)
+                        val distance = max(sqrt((dx * dx + dy * dy).toDouble()), 0.1)
 
                         val repulsion = repulsionForce / (distance * distance)
 
-                        val antiOverlap = if (distance < minDistance) {
-                            val overlapFactor = (minDistance - distance) / minDistance
-                            overlapPreventionForce * overlapFactor / (distance * distance)
-                        } else 0.0
+                        val antiOverlap =
+                            if (distance < minDistance) {
+                                val overlapFactor = (minDistance - distance) / minDistance
+                                overlapPreventionForce * overlapFactor / (distance * distance)
+                            } else {
+                                0.0
+                            }
 
                         forceX += (dx / distance) * (repulsion + antiOverlap)
                         forceY += (dy / distance) * (repulsion + antiOverlap)
@@ -70,21 +73,26 @@ class ForceDirectedLayout : RepresentationStrategy {
                 edges.filter {
                     it.firstVertex == currentVertex || it.secondVertex == currentVertex
                 }.forEach { edge ->
-                    val neighbor = if (edge.firstVertex == currentVertex)
-                        edge.secondVertex else edge.firstVertex
+                    val neighbor =
+                        if (edge.firstVertex == currentVertex) {
+                            edge.secondVertex
+                        } else {
+                            edge.firstVertex
+                        }
 
                     val neighborRadius = vertexRadii[neighbor] ?: defaultRadiusPx
                     val minDistance = max(minAllowedDistance, (currentRadius + neighborRadius).toDouble())
 
                     val dx = (currentVertex.x - neighbor.x).toPx()
                     val dy = (currentVertex.y - neighbor.y).toPx()
-                    val distance = max(sqrt((dx*dx + dy*dy).toDouble()), 0.1)
+                    val distance = max(sqrt((dx * dx + dy * dy).toDouble()), 0.1)
 
-                    val attraction = if (distance < minDistance) {
-                        -attractionForce * (minDistance - distance) / optimalDistance
-                    } else {
-                        attractionForce * (distance - minDistance) / optimalDistance
-                    }
+                    val attraction =
+                        if (distance < minDistance) {
+                            -attractionForce * (minDistance - distance) / optimalDistance
+                        } else {
+                            attractionForce * (distance - minDistance) / optimalDistance
+                        }
 
                     forceX -= (dx / distance) * attraction
                     forceY -= (dy / distance) * attraction
@@ -93,14 +101,16 @@ class ForceDirectedLayout : RepresentationStrategy {
                 currentVertex.x += (forceX * damping).dp
                 currentVertex.y += (forceY * damping).dp
 
-                currentVertex.x = currentVertex.x.coerceIn(
-                    currentRadius.dp,
-                    (width - currentRadius).dp
-                )
-                currentVertex.y = currentVertex.y.coerceIn(
-                    currentRadius.dp,
-                    (height - currentRadius).dp
-                )
+                currentVertex.x =
+                    currentVertex.x.coerceIn(
+                        currentRadius.dp,
+                        (width - currentRadius).dp,
+                    )
+                currentVertex.y =
+                    currentVertex.y.coerceIn(
+                        currentRadius.dp,
+                        (height - currentRadius).dp,
+                    )
             }
         }
     }

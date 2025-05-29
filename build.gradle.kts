@@ -6,6 +6,7 @@ plugins {
     id("org.jetbrains.compose")
     id("jacoco")
     kotlin("plugin.serialization") version "1.9.0"
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
 }
 
 repositories {

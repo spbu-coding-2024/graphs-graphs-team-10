@@ -37,7 +37,6 @@ import viewmodel.MainScreenViewModelForUndirectedGraph
 import java.awt.Dimension
 import java.sql.DriverManager
 import java.sql.SQLException
-import java.util.Locale
 import java.util.Locale.getDefault
 import javax.swing.JFileChooser
 import javax.swing.JOptionPane
@@ -213,16 +212,17 @@ fun homeScreen() {
                                             null,
                                             "Please select a JSON file",
                                             "Invalid File Type",
-                                            JOptionPane.ERROR_MESSAGE
+                                            JOptionPane.ERROR_MESSAGE,
                                         )
                                         return@Button
                                     }
 
                                     filePath = selectedFile.absolutePath
-                                    val mainScreenViewModel = loadMainScreenViewModelFromJson(
-                                        filePath,
-                                        ForceDirectedLayout(),
-                                    )
+                                    val mainScreenViewModel =
+                                        loadMainScreenViewModelFromJson(
+                                            filePath,
+                                            ForceDirectedLayout(),
+                                        )
 
                                     when (mainScreenViewModel) {
                                         is MainScreenViewModelForDirectedGraph ->
@@ -235,7 +235,7 @@ fun homeScreen() {
                                         null,
                                         "Error loading JSON file: ${e.message}",
                                         "Loading Error",
-                                        JOptionPane.ERROR_MESSAGE
+                                        JOptionPane.ERROR_MESSAGE,
                                     )
                                 }
                             } else {

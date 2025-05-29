@@ -342,27 +342,32 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    Button(onClick = {
-                        viewModel.graphViewModel.clearVertexToFindCycles()
-                        viewModel.graphViewModel.findCyclesState = !viewModel.graphViewModel.findCyclesState
-                        viewModel.graphViewModel.findPathState = false
-                    },
+                    Button(
+                        onClick = {
+                            viewModel.graphViewModel.clearVertexToFindCycles()
+                            viewModel.graphViewModel.findCyclesState = !viewModel.graphViewModel.findCyclesState
+                            viewModel.graphViewModel.findPathState = false
+                        },
                         modifier = Modifier.fillMaxWidth(),
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = if (viewModel.graphViewModel.findCyclesState) {
-                                Color(0xFF1565C0)
-                            } else {
-                                Color(0xFF1976D2)
-                            },
-                            contentColor = Color.White
-                        )
+                        colors =
+                            ButtonDefaults.buttonColors(
+                                backgroundColor =
+                                    if (viewModel.graphViewModel.findCyclesState) {
+                                        Color(0xFF1565C0)
+                                    } else {
+                                        Color(0xFF1976D2)
+                                    },
+                                contentColor = Color.White,
+                            ),
                     ) {
                         Text(
-                            text = if (viewModel.graphViewModel.findCyclesState) {
-                                "Cancel Find Cycles"
-                            } else {
-                                "Find Cycles"
-                            }, fontSize = 18.sp
+                            text =
+                                if (viewModel.graphViewModel.findCyclesState) {
+                                    "Cancel Find Cycles"
+                                } else {
+                                    "Find Cycles"
+                                },
+                            fontSize = 18.sp,
                         )
                     }
 
@@ -555,59 +560,67 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
                                 repository.close()
                             }
                         },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(56.dp)
-                            .padding(vertical = 8.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color(0xFF0181FF),
-                            contentColor = Color.White,
-                        ),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .height(56.dp)
+                                .padding(vertical = 8.dp),
+                        colors =
+                            ButtonDefaults.buttonColors(
+                                backgroundColor = Color(0xFF0181FF),
+                                contentColor = Color.White,
+                            ),
                         shape = RoundedCornerShape(10.dp),
-                        elevation = ButtonDefaults.elevation(
-                            defaultElevation = 4.dp,
-                            pressedElevation = 2.dp,
-                            hoveredElevation = 6.dp
-                        ),
-                        border = BorderStroke(1.5.dp, Color(0xFF0066CC))
+                        elevation =
+                            ButtonDefaults.elevation(
+                                defaultElevation = 4.dp,
+                                pressedElevation = 2.dp,
+                                hoveredElevation = 6.dp,
+                            ),
+                        border = BorderStroke(1.5.dp, Color(0xFF0066CC)),
                     ) {
                         Text(
                             "SQLite",
-                            style = MaterialTheme.typography.button.copy(
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Bold,
-                                letterSpacing = 0.5.sp
-                            ),
-                            modifier = Modifier.padding(horizontal = 4.dp)
+                            style =
+                                MaterialTheme.typography.button.copy(
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    letterSpacing = 0.5.sp,
+                                ),
+                            modifier = Modifier.padding(horizontal = 4.dp),
                         )
                     }
 
                     Button(
                         onClick = {},
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(56.dp)
-                            .padding(vertical = 8.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color(0xFF0181FF),
-                            contentColor = Color.White,
-                        ),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .height(56.dp)
+                                .padding(vertical = 8.dp),
+                        colors =
+                            ButtonDefaults.buttonColors(
+                                backgroundColor = Color(0xFF0181FF),
+                                contentColor = Color.White,
+                            ),
                         shape = RoundedCornerShape(10.dp),
-                        elevation = ButtonDefaults.elevation(
-                            defaultElevation = 4.dp,
-                            pressedElevation = 2.dp,
-                            hoveredElevation = 6.dp
-                        ),
-                        border = BorderStroke(1.5.dp, Color(0xFF0066CC))
+                        elevation =
+                            ButtonDefaults.elevation(
+                                defaultElevation = 4.dp,
+                                pressedElevation = 2.dp,
+                                hoveredElevation = 6.dp,
+                            ),
+                        border = BorderStroke(1.5.dp, Color(0xFF0066CC)),
                     ) {
                         Text(
                             "Neo4j",
-                            style = MaterialTheme.typography.button.copy(
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Bold,
-                                letterSpacing = 0.5.sp
-                            ),
-                            modifier = Modifier.padding(horizontal = 4.dp)
+                            style =
+                                MaterialTheme.typography.button.copy(
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    letterSpacing = 0.5.sp,
+                                ),
+                            modifier = Modifier.padding(horizontal = 4.dp),
                         )
                     }
 
@@ -625,30 +638,34 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
                                 filePath,
                             )
                         },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(56.dp)
-                            .padding(vertical = 8.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color(0xFF0181FF),
-                            contentColor = Color.White,
-                        ),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .height(56.dp)
+                                .padding(vertical = 8.dp),
+                        colors =
+                            ButtonDefaults.buttonColors(
+                                backgroundColor = Color(0xFF0181FF),
+                                contentColor = Color.White,
+                            ),
                         shape = RoundedCornerShape(10.dp),
-                        elevation = ButtonDefaults.elevation(
-                            defaultElevation = 4.dp,
-                            pressedElevation = 2.dp,
-                            hoveredElevation = 6.dp
-                        ),
-                        border = BorderStroke(1.5.dp, Color(0xFF0066CC))
+                        elevation =
+                            ButtonDefaults.elevation(
+                                defaultElevation = 4.dp,
+                                pressedElevation = 2.dp,
+                                hoveredElevation = 6.dp,
+                            ),
+                        border = BorderStroke(1.5.dp, Color(0xFF0066CC)),
                     ) {
                         Text(
                             "Json",
-                            style = MaterialTheme.typography.button.copy(
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Bold,
-                                letterSpacing = 0.5.sp
-                            ),
-                            modifier = Modifier.padding(horizontal = 4.dp)
+                            style =
+                                MaterialTheme.typography.button.copy(
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    letterSpacing = 0.5.sp,
+                                ),
+                            modifier = Modifier.padding(horizontal = 4.dp),
                         )
                     }
                 }

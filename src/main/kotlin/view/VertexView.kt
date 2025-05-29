@@ -4,6 +4,7 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
@@ -39,9 +40,9 @@ fun vertexView(
     var isHovered by remember { mutableStateOf(false) }
     var isTapped by remember { mutableStateOf(false) }
 
-    val glowColor by animateColorAsState(
-        if (isHovered) Color.Black.copy(alpha = 0.4f) else Color.Transparent,
-        label = "glow_animation",
+    val borderColor by animateColorAsState(
+        if (isHovered) Color.Magenta else Color.Black,
+        label = "border_color_animation",
     )
 
     val pulseScale by animateFloatAsState(
@@ -76,11 +77,10 @@ fun vertexView(
                         color = viewModel.color,
                         shape = CircleShape,
                     )
-                    .shadow(
-                        elevation = if (isHovered) 20.dp else 0.dp,
-                        shape = CircleShape,
-                        ambientColor = Color.LightGray,
-                        spotColor = Color.DarkGray,
+                    .border(
+                        width = viewModel.radius / 5,
+                        color = borderColor,
+                        shape = CircleShape
                     )
                     .pointerInput(viewModel) {
                         awaitPointerEventScope {
@@ -92,9 +92,9 @@ fun vertexView(
                                             event.changes.fastAll { change ->
                                                 val position = change.position
                                                 position.x >= 0f &&
-                                                    position.y >= 0f &&
-                                                    position.x <= size.width &&
-                                                    position.y <= size.height
+                                                        position.y >= 0f &&
+                                                        position.x <= size.width &&
+                                                        position.y <= size.height
                                             }
                                         if (isInside != isHovered) {
                                             isHovered = isInside
@@ -131,7 +131,7 @@ fun vertexView(
                 color = Color.Black,
                 modifier =
                     Modifier
-                        .align(Alignment.TopCenter)
+                        .align(Alignment.Center)
                         .zIndex(1f),
             )
         }

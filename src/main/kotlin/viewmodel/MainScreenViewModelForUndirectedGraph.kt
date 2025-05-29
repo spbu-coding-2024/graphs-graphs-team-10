@@ -37,23 +37,16 @@ class MainScreenViewModelForUndirectedGraph(
         )
 
     init {
+        makeNewPlacement()
+    }
+
+    fun makeNewPlacement() {
         representationStrategy.place(
             1800.0,
             1050.0,
             graphViewModel.vertices,
             graphViewModel.edges,
         )
-        graphViewModel.vertices.forEach { vertex ->
-            vertex.xStartPosition = vertex.x
-            vertex.yStartPosition = vertex.y
-        }
-    }
-
-    fun resetPlacement() {
-        graphViewModel.vertices.forEach { vertex ->
-            vertex.x = vertex.xStartPosition
-            vertex.y = vertex.yStartPosition
-        }
     }
 
     fun checkForNegativeWeights(): Boolean = checkGraphForNegativeWeight(graph)

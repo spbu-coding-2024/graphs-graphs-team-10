@@ -45,37 +45,47 @@ fun findCyclesForDirected(graph: DirectedGraph, startVertex: Long) : List<List<L
 
 fun findCyclesForUndirected(graph: UndirectedGraph, startVertex: Long): List<List<Long>> {
     val adjList = getAdjacencyList(graph)
+    val visited = mutableSetOf<Long>()
     val cycles = mutableListOf<List<Long>>()
-    val path = mutableListOf<Long>()
+    val parent = mutableMapOf<Long, Long>()
 
-    fun dfs(current: Long, parent: Long) {
-        if (path.contains(current)) {
-            val cycleStart = path.indexOf(current)
-            val cycle = path.subList(cycleStart, path.size)
-            if (cycle.contains(startVertex) && cycle.size >= 3) {
-                cycles.add(cycle.toList() + current)
-            }
-            return
-        }
-
-        path.add(current)
+    fun dfs(current: Long) {
+        visited.add(current)
 
         adjList[current]?.forEach { neighbor ->
-            if (neighbor != parent) {
-                dfs(neighbor, current)
+            when {
+                parent[current] == neighbor -> return@forEach
+
+                visited.contains(neighbor) -> {
+                    val cycle = mutableListOf<Long>()
+                    var node = current
+                    while (node != neighbor && node != -1L) {
+                        cycle.add(node)
+                        node = parent[node] ?: -1L
+                    }
+                    if (node != -1L) {
+                        cycle.add(neighbor)
+                        cycle.reverse()
+                        if (cycle.size >= 3) {
+                            val minIndex = cycle.indexOf(cycle.minOrNull())
+                            val normalizedCycle = cycle.drop(minIndex) + cycle.take(minIndex)
+                            cycles.add(normalizedCycle)
+                        }
+                    }
+                }
+
+                else -> {
+                    parent[neighbor] = current
+                    dfs(neighbor)
+                }
             }
         }
-
-        path.removeAt(path.size - 1)
     }
 
-    if (graph.vertices.any { it == startVertex }) {
-        dfs(startVertex, -1)
+    if (graph.vertices.contains(startVertex)) {
+        parent[startVertex] = -1L
+        dfs(startVertex)
     }
 
-    return cycles.distinctBy { cycle ->
-        val min = cycle.minOrNull() ?: 0L
-        val index = cycle.indexOf(min)
-        cycle.drop(index) + cycle.take(index)
-    }
+    return cycles.distinctBy { it.joinToString(",") }
 }

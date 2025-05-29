@@ -39,7 +39,8 @@ class VertexViewModel(
     var radius: Dp
         get() = _radius.value
         set(value) {
-            _radius.value = value
+            if (value.value > 0.01 && value.value < 200.0)
+                _radius.value = value
         }
 
     val value

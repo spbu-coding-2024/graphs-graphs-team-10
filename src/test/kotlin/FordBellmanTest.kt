@@ -1,3 +1,4 @@
+//author: Roman Epishkin
 import model.DirectedGraph
 import model.fordBellman
 import org.junit.jupiter.api.Assertions.*

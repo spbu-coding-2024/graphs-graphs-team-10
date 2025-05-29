@@ -1,3 +1,4 @@
+//author: Roman Epishkin
 package model
 
 fun fordBellman(

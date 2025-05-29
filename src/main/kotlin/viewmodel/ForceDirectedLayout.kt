@@ -1,3 +1,4 @@
+//author: Roman Epishkin
 package viewmodel
 
 import androidx.compose.ui.graphics.Color

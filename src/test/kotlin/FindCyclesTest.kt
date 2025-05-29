@@ -1,3 +1,4 @@
+//author: Roman Epishkin
 import algos.findCyclesForDirected
 import algos.findCyclesForUndirected
 import model.DirectedGraph
@@ -6,7 +7,6 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class FindCyclesTest {
-    // Тесты для ориентированного графа
     @Test
     fun `test findCyclesForDirected with no cycles`() {
         val graph = DirectedGraph().apply {
@@ -87,7 +87,6 @@ class FindCyclesTest {
         assertTrue(cycles.any { it == listOf(1L, 2L) })
     }
 
-    // Тесты для неориентированного графа
     @Test
     fun `test findCyclesForUndirected with no cycles`() {
         val graph = UndirectedGraph().apply {

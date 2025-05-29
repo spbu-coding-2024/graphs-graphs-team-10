@@ -40,10 +40,19 @@ class MainScreenViewModelForDirectedGraph(
 
     init {
         representationStrategy.place(
-            1050.0,
+            2000.0,
             1050.0,
             graphViewModel.vertices,
             graphViewModel.edges,
+        )
+    }
+
+    fun resetPlacement() {
+        representationStrategy.place(
+            2000.0,
+            1050.0,
+            graphViewModel.vertices,
+            graphViewModel.edges
         )
     }
 

@@ -7,7 +7,7 @@ import androidx.compose.ui.unit.dp
 import model.DirectedGraph
 import model.Graph
 import model.UndirectedGraph
-import viewmodel.ForceAtlas2Layout
+import viewmodel.ForceDirectedLayout
 import viewmodel.GraphViewModel
 import viewmodel.MainScreenViewModel
 import viewmodel.MainScreenViewModelForDirectedGraph
@@ -169,12 +169,12 @@ class GraphRepository(private val connection: Connection) : Closeable {
             if (graph is DirectedGraph) {
                 MainScreenViewModelForDirectedGraph(
                     graph,
-                    ForceAtlas2Layout(),
+                    ForceDirectedLayout(),
                 )
             } else {
                 MainScreenViewModelForUndirectedGraph(
                     graph as UndirectedGraph,
-                    ForceAtlas2Layout(),
+                    ForceDirectedLayout(),
                 )
             }
 

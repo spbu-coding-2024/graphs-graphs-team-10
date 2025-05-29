@@ -282,6 +282,7 @@ fun MainScreenForDirected(viewModel: MainScreenViewModelForDirectedGraph) {
                     Button(
                         onClick = {
                             showSaveMenu = false
+                            viewModel.resetPlacement()
                         },
                         modifier = Modifier.fillMaxWidth(),
                         colors =

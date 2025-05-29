@@ -80,6 +80,17 @@ fun MainScreenForDirected(viewModel: MainScreenViewModelForDirectedGraph) {
             }
     }
 
+    LaunchedEffect(Unit) {
+        snapshotFlow { viewModel.graphViewModel.vertexToFindCycles }
+            .collect { vertex ->
+                if (vertex.size == 1) {
+                    viewModel.findCycles(vertex[0])
+                }
+                viewModel.graphViewModel.clearVertexToFindCycles()
+                viewModel.graphViewModel.findCyclesState = false
+            }
+    }
+
     Box(modifier = Modifier.fillMaxSize()) {
         Surface(modifier = Modifier.fillMaxSize()) {
             ZoomableBox {
@@ -134,12 +145,12 @@ fun MainScreenForDirected(viewModel: MainScreenViewModelForDirectedGraph) {
                                 modifier = Modifier.padding(16.dp),
                             ) {
                                 Text(
-                                    "Подтверждение выхода",
+                                    "Exit confirmation",
                                     style = MaterialTheme.typography.h6,
                                     modifier = Modifier.padding(bottom = 12.dp),
                                 )
                                 Text(
-                                    "Вы уверены, что хотите выйти? Все несохраненные изменения будут утеряны.",
+                                    "Are you sure you want to leave? All unsaved changes will be lost.",
                                     style = MaterialTheme.typography.body1,
                                     modifier = Modifier.padding(bottom = 16.dp),
                                 )
@@ -151,7 +162,7 @@ fun MainScreenForDirected(viewModel: MainScreenViewModelForDirectedGraph) {
                                         onClick = { showExitDialog = false },
                                         modifier = Modifier.padding(end = 8.dp),
                                     ) {
-                                        Text("Отмена")
+                                        Text("Cancel")
                                     }
                                     TextButton(
                                         onClick = { navigator.pop() },
@@ -160,7 +171,7 @@ fun MainScreenForDirected(viewModel: MainScreenViewModelForDirectedGraph) {
                                                 contentColor = MaterialTheme.colors.primary,
                                             ),
                                     ) {
-                                        Text("Да")
+                                        Text("Ok")
                                     }
                                 }
                             }
@@ -346,16 +357,28 @@ fun MainScreenForDirected(viewModel: MainScreenViewModelForDirectedGraph) {
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    Button(
-                        onClick = {},
+                    Button(onClick = {
+                        viewModel.graphViewModel.clearVertexToFindCycles()
+                        viewModel.graphViewModel.findCyclesState = !viewModel.graphViewModel.findCyclesState
+                        viewModel.graphViewModel.findPathState = false
+                    },
                         modifier = Modifier.fillMaxWidth(),
-                        colors =
-                            ButtonDefaults.buttonColors(
-                                backgroundColor = Color(0xFF1976D2),
-                                contentColor = Color.White,
-                            ),
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = if (viewModel.graphViewModel.findCyclesState) {
+                                Color(0xFF1565C0)
+                            } else {
+                                Color(0xFF1976D2)
+                            },
+                            contentColor = Color.White
+                        )
                     ) {
-                        Text("Find cycles", fontSize = 18.sp)
+                        Text(
+                            text = if (viewModel.graphViewModel.findCyclesState) {
+                                "Cancel Find Cycles"
+                            } else {
+                                "Find Cycles"
+                            }, fontSize = 18.sp
+                        )
                     }
 
                     Spacer(modifier = Modifier.height(8.dp))
@@ -366,6 +389,7 @@ fun MainScreenForDirected(viewModel: MainScreenViewModelForDirectedGraph) {
                                 viewModel.graphViewModel.clearVerticesToFindPath()
                                 findPathAlgorithm = "dijkstra"
                                 viewModel.graphViewModel.findPathState = !viewModel.graphViewModel.findPathState
+                                viewModel.graphViewModel.findCyclesState = false
                             },
                             modifier = Modifier.fillMaxWidth(),
                             colors =
@@ -397,6 +421,7 @@ fun MainScreenForDirected(viewModel: MainScreenViewModelForDirectedGraph) {
                             viewModel.graphViewModel.clearVerticesToFindPath()
                             findPathAlgorithm = "fordBellman"
                             viewModel.graphViewModel.findPathState = !viewModel.graphViewModel.findPathState
+                            viewModel.graphViewModel.findCyclesState = false
                         },
                         modifier = Modifier.fillMaxWidth(),
                         colors =
@@ -587,11 +612,11 @@ fun MainScreenForDirected(viewModel: MainScreenViewModelForDirectedGraph) {
                         onClick = {
                             val filePath: String =
                                 showFileSaveDialog(
-                                    title = "Сохранить файл",
+                                    title = "Save file",
                                     initialDirectory = System.getProperty("user.home"),
                                     defaultFileName = "graph.json",
                                     fileFilter = FileNameExtensionFilter("JSON files", "json"),
-                                ) ?: "Отменено"
+                                ) ?: "Canceled"
                             saveToJson(
                                 viewModel,
                                 filePath,

@@ -30,6 +30,21 @@ class GraphViewModel(
 
     fun clearVerticesToFindPath() = _verticesToFindPath.clear()
 
+    private var _findCyclesState = mutableStateOf(false)
+    var findCyclesState: Boolean
+        get() = _findCyclesState.value
+        set(value) {
+            _findCyclesState.value = value
+        }
+
+    private val _vertexToFindCycles = mutableStateListOf<Long>()
+    val vertexToFindCycles: List<Long>
+        get() = _vertexToFindCycles.toList()
+
+    fun addVertexToFindCycles(vertex: Long) = _vertexToFindCycles.add(vertex)
+
+    fun clearVertexToFindCycles() = _vertexToFindCycles.clear()
+
     private val _vertices =
         graph.vertices.associateWith { v ->
             VertexViewModel(

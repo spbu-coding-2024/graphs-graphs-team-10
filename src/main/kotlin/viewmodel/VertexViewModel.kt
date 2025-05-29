@@ -56,5 +56,8 @@ class VertexViewModel(
         if (graphViewModel.findPathState) {
             graphViewModel.addVertexToFindPath(this.v)
         }
+        if(graphViewModel.findCyclesState) {
+            graphViewModel.addVertexToFindCycles(this.v)
+        }
     }
 }

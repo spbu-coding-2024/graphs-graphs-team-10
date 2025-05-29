@@ -63,21 +63,27 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
     var showAnalyzeMenu by remember { mutableStateOf(false) }
     var showSaveMenu by remember { mutableStateOf(false) }
     var showExitDialog by remember { mutableStateOf(false) }
-    var findPathAlgorithm by remember { mutableStateOf("") }
     val navigator = LocalNavigator.currentOrThrow
 
     LaunchedEffect(Unit) {
         snapshotFlow { viewModel.graphViewModel.verticesToFindPath }
             .collect { pathList ->
                 if (pathList.size == 2) {
-                    if (findPathAlgorithm == "dijkstra") {
-                        viewModel.findPathDijkstra(pathList[0], pathList[1])
-                    } else if (findPathAlgorithm == "fordBellman") {
-                        viewModel.findPathFordBellman(pathList[0], pathList[1])
-                    }
+                    viewModel.findPathDijkstra(pathList[0], pathList[1])
                     viewModel.graphViewModel.clearVerticesToFindPath()
                     viewModel.graphViewModel.findPathState = false
                 }
+            }
+    }
+
+    LaunchedEffect(Unit) {
+        snapshotFlow { viewModel.graphViewModel.vertexToFindCycles }
+            .collect { vertex ->
+                if (vertex.size == 1) {
+                    viewModel.findCycles(vertex[0])
+                }
+                viewModel.graphViewModel.clearVertexToFindCycles()
+                viewModel.graphViewModel.findCyclesState = false
             }
     }
 
@@ -135,12 +141,12 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
                                 modifier = Modifier.padding(16.dp),
                             ) {
                                 Text(
-                                    "Подтверждение выхода",
+                                    "Exit confirmation",
                                     style = MaterialTheme.typography.h6,
                                     modifier = Modifier.padding(bottom = 12.dp),
                                 )
                                 Text(
-                                    "Вы уверены, что хотите выйти? Все несохраненные изменения будут утеряны.",
+                                    "Are you sure you want to leave? All unsaved changes will be lost.",
                                     style = MaterialTheme.typography.body1,
                                     modifier = Modifier.padding(bottom = 16.dp),
                                 )
@@ -152,7 +158,7 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
                                         onClick = { showExitDialog = false },
                                         modifier = Modifier.padding(end = 8.dp),
                                     ) {
-                                        Text("Отмена")
+                                        Text("Cancel")
                                     }
                                     TextButton(
                                         onClick = { navigator.pop() },
@@ -161,7 +167,7 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
                                                 contentColor = MaterialTheme.colors.primary,
                                             ),
                                     ) {
-                                        Text("Да")
+                                        Text("Ok")
                                     }
                                 }
                             }
@@ -333,16 +339,28 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    Button(
-                        onClick = {},
+                    Button(onClick = {
+                        viewModel.graphViewModel.clearVertexToFindCycles()
+                        viewModel.graphViewModel.findCyclesState = !viewModel.graphViewModel.findCyclesState
+                        viewModel.graphViewModel.findPathState = false
+                    },
                         modifier = Modifier.fillMaxWidth(),
-                        colors =
-                            ButtonDefaults.buttonColors(
-                                backgroundColor = Color(0xFF1976D2),
-                                contentColor = Color.White,
-                            ),
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = if (viewModel.graphViewModel.findCyclesState) {
+                                Color(0xFF1565C0)
+                            } else {
+                                Color(0xFF1976D2)
+                            },
+                            contentColor = Color.White
+                        )
                     ) {
-                        Text("Find cycles", fontSize = 18.sp)
+                        Text(
+                            text = if (viewModel.graphViewModel.findCyclesState) {
+                                "Cancel Find Cycles"
+                            } else {
+                                "Find Cycles"
+                            }, fontSize = 18.sp
+                        )
                     }
 
                     Spacer(modifier = Modifier.height(8.dp))
@@ -351,14 +369,14 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
                         Button(
                             onClick = {
                                 viewModel.graphViewModel.clearVerticesToFindPath()
-                                findPathAlgorithm = "dijkstra"
                                 viewModel.graphViewModel.findPathState = !viewModel.graphViewModel.findPathState
+                                viewModel.graphViewModel.findCyclesState = false
                             },
                             modifier = Modifier.fillMaxWidth(),
                             colors =
                                 ButtonDefaults.buttonColors(
                                     backgroundColor =
-                                        if (viewModel.graphViewModel.findPathState && findPathAlgorithm == "dijkstra") {
+                                        if (viewModel.graphViewModel.findPathState) {
                                             Color(0xFF1565C0)
                                         } else {
                                             Color(0xFF1976D2)
@@ -368,7 +386,7 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
                         ) {
                             Text(
                                 text =
-                                    if (viewModel.graphViewModel.findPathState && findPathAlgorithm == "dijkstra") {
+                                    if (viewModel.graphViewModel.findPathState) {
                                         "Cancel Dijkstra"
                                     } else {
                                         "Find Path (Dijkstra)"
@@ -378,37 +396,6 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
                         }
                         Spacer(modifier = Modifier.height(8.dp))
                     }
-
-                    Button(
-                        onClick = {
-                            viewModel.graphViewModel.clearVerticesToFindPath()
-                            findPathAlgorithm = "fordBellman"
-                            viewModel.graphViewModel.findPathState = !viewModel.graphViewModel.findPathState
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                        colors =
-                            ButtonDefaults.buttonColors(
-                                backgroundColor =
-                                    if (viewModel.graphViewModel.findPathState && findPathAlgorithm == "fordBellman") {
-                                        Color(0xFF1565C0)
-                                    } else {
-                                        Color(0xFF1976D2)
-                                    },
-                                contentColor = Color.White,
-                            ),
-                    ) {
-                        Text(
-                            text =
-                                if (viewModel.graphViewModel.findPathState && findPathAlgorithm == "fordBellman") {
-                                    "Cancel Ford-Bellman"
-                                } else {
-                                    "Find Path (Ford-Bellman)"
-                                },
-                            fontSize = 18.sp,
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(8.dp))
 
                     Button(
                         onClick = {
@@ -604,11 +591,11 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
                         onClick = {
                             val filePath: String =
                                 showFileSaveDialog(
-                                    title = "Сохранить файл",
+                                    title = "Save file",
                                     initialDirectory = System.getProperty("user.home"),
                                     defaultFileName = "graph.json",
                                     fileFilter = FileNameExtensionFilter("JSON files", "json"),
-                                ) ?: "Отменено"
+                                ) ?: "Canceled"
                             saveToJson(
                                 viewModel,
                                 filePath,

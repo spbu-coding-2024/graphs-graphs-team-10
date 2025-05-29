@@ -28,6 +28,20 @@ class VertexViewModel(
         set(value) {
             _y.value = value
         }
+
+    private var _xStartPosition = mutableStateOf(0.dp)
+    var xStartPosition: Dp
+        get() = _xStartPosition.value
+        set(value) {
+            _xStartPosition.value = value
+        }
+    private var _yStartPosition = mutableStateOf(0.dp)
+    var yStartPosition: Dp
+        get() = _yStartPosition.value
+        set(value) {
+            _yStartPosition.value = value
+        }
+
     private var _color = mutableStateOf(color)
     var color: Color
         get() = _color.value

@@ -40,27 +40,29 @@ class MainScreenViewModelForDirectedGraph(
 
     init {
         representationStrategy.place(
-            2000.0,
+            1800.0,
             1050.0,
             graphViewModel.vertices,
             graphViewModel.edges,
         )
+        graphViewModel.vertices.forEach { vertex ->
+            vertex.xStartPosition = vertex.x
+            vertex.yStartPosition = vertex.y
+        }
     }
 
     fun resetPlacement() {
-        representationStrategy.place(
-            2000.0,
-            1050.0,
-            graphViewModel.vertices,
-            graphViewModel.edges
-        )
+        graphViewModel.vertices.forEach { vertex ->
+            vertex.x = vertex.xStartPosition
+            vertex.y = vertex.yStartPosition
+        }
     }
 
     fun checkForNegativeWeights(): Boolean = checkGraphForNegativeWeight(graph)
 
     fun resetGraphView() {
         representationStrategy.place(
-            1050.0,
+            1800.0,
             1050.0,
             graphViewModel.vertices,
             graphViewModel.edges,

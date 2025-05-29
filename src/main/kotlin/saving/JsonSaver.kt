@@ -5,7 +5,6 @@ import androidx.compose.ui.graphics.colorspace.ColorSpaces
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import model.DirectedGraph
@@ -53,7 +52,7 @@ fun Dp.toPx(): Int = (value * 1.0f).toInt()
 private fun parseGraphFromJson(filePath: String): GraphJson {
     val jsonFile = File(filePath)
     if (!jsonFile.exists()) {
-        throw FileNotFoundException("Файл '$filePath' не найден.")
+        throw FileNotFoundException("File '$filePath' not found.")
     }
 
     return try {
@@ -61,7 +60,7 @@ private fun parseGraphFromJson(filePath: String): GraphJson {
         val graphWrapper = Json.decodeFromString<GraphWrapper>(jsonString)
         graphWrapper.graph
     } catch (e: Exception) {
-        throw IllegalArgumentException("Ошибка парсинга JSON: ${e.message}")
+        throw IllegalArgumentException("Parsing JSON error: ${e.message}")
     }
 }
 
@@ -71,7 +70,7 @@ fun String.hexToColor(): Color {
         when (hex.length) {
             6 -> listOf(255, hex.substring(0, 2), hex.substring(2, 4), hex.substring(4, 6))
             8 -> listOf(hex.substring(0, 2), hex.substring(2, 4), hex.substring(4, 6), hex.substring(6, 8))
-            else -> throw IllegalArgumentException("Некорректный HEX-формат")
+            else -> throw IllegalArgumentException("Incorrect HEX-format")
         }
     return Color(
         alpha = a.toString().toInt(16),

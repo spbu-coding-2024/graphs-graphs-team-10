@@ -34,6 +34,9 @@ class MainScreenViewModelForDirectedGraphTest {
             }
     }
 
+    // ====================================
+    // init
+    // ====================================
     @Test
     fun `init main screen viewModel for directed graph`() {
         graph = DirectedGraph().apply { addEdge(1, 2, 0) }
@@ -48,6 +51,9 @@ class MainScreenViewModelForDirectedGraphTest {
         }
     }
 
+    // ====================================
+    // resetting the properties of a vertex, edges and the entire graph
+    // ====================================
     @Test
     fun `reset graph view test`() {
         graph = DirectedGraph().apply { addEdge(1, 2, 0) }
@@ -83,6 +89,9 @@ class MainScreenViewModelForDirectedGraphTest {
         }
     }
 
+    // ====================================
+    // checkForNegativeWeights
+    // ====================================
     @Test
     fun `check for negative weights test`() {
         graph =
@@ -107,6 +116,9 @@ class MainScreenViewModelForDirectedGraphTest {
         assertFalse(viewModel.checkForNegativeWeights())
     }
 
+    // ====================================
+    // Dijkstra
+    // ====================================
     @Test
     fun `Dijkstra test`() {
         graph =
@@ -190,6 +202,9 @@ class MainScreenViewModelForDirectedGraphTest {
         }
     }
 
+    // ====================================
+    // strongly connected components
+    // ====================================
     @Test
     fun `find strongly connected components`() {
         graph =
@@ -237,6 +252,9 @@ class MainScreenViewModelForDirectedGraphTest {
         viewModel.findStronglyConnectedComponents()
     }
 
+    // ====================================
+    // leader rank
+    // ====================================
     @Test
     fun `highlight key vertices test`() {
         graph =
@@ -321,6 +339,9 @@ class MainScreenViewModelForDirectedGraphTest {
         }
     }
 
+    // ====================================
+    // text display flags
+    // ====================================
     @Test
     fun `vertex values and edge weights are hidden`() {
         graph = DirectedGraph().apply { addEdge(2, 1, 0) }
@@ -341,6 +362,9 @@ class MainScreenViewModelForDirectedGraphTest {
         assertTrue(viewModel.showEdgesWeights)
     }
 
+    // ====================================
+    // Ford Bellman
+    // ====================================
     @Test
     fun `Ford Bellman test`(){
         graph =
@@ -449,5 +473,77 @@ class MainScreenViewModelForDirectedGraphTest {
         }
     }
 
+    // ====================================
+    // find cycles
+    // ====================================
+    @Test
+    fun `find two cycles`(){
+        graph =
+            DirectedGraph().apply {
+                addEdge(1, 2, 1)
+                addEdge(2, 3, 2)
+                addEdge(3, 1, 3)
+
+                addEdge(2, 5, 6)
+                addEdge(5, 2, 5)
+
+                addEdge(2, 4, 4)
+            }
+        viewModel = MainScreenViewModelForDirectedGraph(graph, representationStrategy)
+        viewModel.findCycles(2)
+        val newColor = Color(0xFF800020)
+
+        viewModel.graphViewModel.edges.forEach {
+            when (it.weight){
+                "1", "2", "3", "5", "6" -> assertEquals(newColor, it.color)
+                "4" -> assertEquals(Color.Black, it.color)
+            }
+        }
+    }
+
+    @Test
+    fun `find unreachable cycle`(){
+        graph =
+            DirectedGraph().apply {
+                addEdge(2, 1, 1)
+                addEdge(2, 3, 1)
+                addEdge(3, 2, 1)
+            }
+        viewModel = MainScreenViewModelForDirectedGraph(graph, representationStrategy)
+        viewModel.findCycles(1)
+
+        viewModel.graphViewModel.edges.forEach {
+            assertEquals(Color.Black, it.color)
+        }
+    }
+
+    @Test
+    fun `find cycle with non-existent vertex`(){
+        graph =
+            DirectedGraph().apply {
+                addEdge(2, 1, 1)
+                addEdge(2, 3, 1)
+                addEdge(3, 2, 1)
+            }
+        viewModel = MainScreenViewModelForDirectedGraph(graph, representationStrategy)
+        viewModel.findCycles(5)
+
+        viewModel.graphViewModel.edges.forEach {
+            assertEquals(Color.Black, it.color)
+        }
+    }
+
+    @Test
+    fun `vertex with loop`(){
+        graph =
+            DirectedGraph().apply {
+                addEdge(1, 1, 1)
+            }
+        viewModel = MainScreenViewModelForDirectedGraph(graph, representationStrategy)
+        viewModel.findCycles(1)
+        val newColor = Color(0xFF800020)
+
+        assertEquals(newColor, viewModel.graphViewModel.edges.first().color)
+    }
 
 }

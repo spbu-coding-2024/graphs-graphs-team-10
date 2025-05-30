@@ -531,7 +531,7 @@ class MainScreenViewModelForDirectedGraphIT {
             }
         viewModel = MainScreenViewModelForDirectedGraph(graph, representationStrategy)
         viewModel.findCycles(2)
-        val newColor = Color(0xFF800020)
+        val newColor = Color(0xFFFFD700)
 
         viewModel.graphViewModel.edges.forEach {
             when (it.weight) {
@@ -581,7 +581,7 @@ class MainScreenViewModelForDirectedGraphIT {
             }
         viewModel = MainScreenViewModelForDirectedGraph(graph, representationStrategy)
         viewModel.findCycles(1)
-        val newColor = Color(0xFF800020)
+        val newColor = Color(0xFFFFD700)
 
         assertEquals(newColor, viewModel.graphViewModel.edges.first().color)
     }

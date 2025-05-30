@@ -149,7 +149,27 @@ class MainScreenViewModelForUndirectedGraph(
     fun highlightMinimalSpanningTree() {
         val mst = findMinimalSpanningTree(graph)
         for (i in mst){
-            graphViewModel.setEdgeWidth(i.vertices.first, i.vertices.second, graphViewModel.defaultEdgesWidth * 7)
+            graphViewModel.setEdgeWidth(
+                i.vertices.first,
+                i.vertices.second,
+                graphViewModel.defaultEdgesWidth * 7,
+                )
+        }
+    }
+
+    fun highlightBridges() {
+        val bridges = findBridges(graph)
+        for (i in bridges) {
+            graphViewModel.setEdgeWidth(
+                i.vertices.first,
+                i.vertices.second,
+                graphViewModel.defaultEdgesWidth * 2,
+            )
+            graphViewModel.setEdgeColor(
+                i.vertices.first,
+                i.vertices.second,
+                Color(0xFF00ff88)
+                )
         }
     }
 }

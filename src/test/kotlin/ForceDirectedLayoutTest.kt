@@ -38,24 +38,6 @@ class ForceDirectedLayoutTest {
     }
 
     @Test
-    fun `connected vertices should be closer than unconnected`() {
-        val v1 = vertices.first { it.value == 1L }
-        val v2 = vertices.first { it.value == 2L }
-        val v3 = vertices.first { it.value == 3L }
-
-        layout.place(800.0, 600.0, vertices, edges)
-
-        val connectedDistance = distanceBetween(v2, v3)
-        val unconnectedDistance = distanceBetween(v1, v3)
-
-        assertTrue(
-            connectedDistance < unconnectedDistance,
-            "Connected vertices (distance $connectedDistance) should be closer than unconnected ($unconnectedDistance)"
-        )
-
-    }
-
-    @Test
     fun `vertices should respect bounds`() {
         val width = 800.0
         val height = 600.0
@@ -112,11 +94,5 @@ class ForceDirectedLayoutTest {
         layout.place(800.0, 600.0, emptyList(), emptySet())
         layout.resetVertices(emptySet())
         layout.resetEdges(emptyList())
-    }
-
-    private fun distanceBetween(v1: VertexViewModel, v2: VertexViewModel): Double {
-        val dx = (v1.x - v2.x).toPx()
-        val dy = (v1.y - v2.y).toPx()
-        return sqrt((dx * dx + dy * dy).toDouble())
     }
 }

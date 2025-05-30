@@ -329,7 +329,7 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
                     Spacer(modifier = Modifier.height(40.dp))
 
                     Button(
-                        onClick = {},
+                        onClick = viewModel::highlightCommunities,
                         modifier = Modifier.fillMaxWidth(),
                         colors =
                             ButtonDefaults.buttonColors(

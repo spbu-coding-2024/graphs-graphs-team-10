@@ -144,6 +144,12 @@ class MainScreenViewModelForUndirectedGraph(
             val color = Color.hsl(hue, 0.7f, 0.5f)
             graphViewModel.setVertexColor(v, color)
         }
+    }
 
+    fun highlightMinimalSpanningTree() {
+        val mst = findMinimalSpanningTree(graph)
+        for (i in mst){
+            graphViewModel.setEdgeWidth(i.vertices.first, i.vertices.second, graphViewModel.defaultEdgesWidth * 7)
+        }
     }
 }

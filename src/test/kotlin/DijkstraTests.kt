@@ -1,4 +1,4 @@
-//author: Arseniy Romanov
+// author: Arseniy Romanov
 import algos.dijkstra
 import model.UndirectedGraph
 import org.junit.jupiter.api.Test

@@ -1,9 +1,6 @@
 package viewmodel
 
-import algos.checkGraphForNegativeWeight
-import algos.dijkstra
-import algos.findCyclesForUndirected
-import algos.leaderRank
+import algos.*
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
@@ -133,6 +130,46 @@ class MainScreenViewModelForUndirectedGraph(
             val scale: Double = 1.0 + 3.0 * t
             val newRadius: Dp = defaultRadius * scale.toFloat()
             graphViewModel.setVertexSize(vertexId, newRadius)
+        }
+    }
+
+    fun highlightCommunities() {
+        val communities = findCommunities(graph)
+        val uniqueCommunities = communities.values.distinct()
+        val cnt = uniqueCommunities.size
+        val colors = uniqueCommunities.indices.associateBy{uniqueCommunities[it]}
+        for (v in communities.keys){
+            val colorNum = colors[communities[v]]
+            val hue = ((colorNum ?: 0) * 360f / cnt)
+            val color = Color.hsl(hue, 0.7f, 0.5f)
+            graphViewModel.setVertexColor(v, color)
+        }
+    }
+
+    fun highlightMinimalSpanningTree() {
+        val mst = findMinimalSpanningTree(graph)
+        for (i in mst){
+            graphViewModel.setEdgeWidth(
+                i.vertices.first,
+                i.vertices.second,
+                graphViewModel.defaultEdgesWidth * 7,
+                )
+        }
+    }
+
+    fun highlightBridges() {
+        val bridges = findBridges(graph)
+        for (i in bridges) {
+            graphViewModel.setEdgeWidth(
+                i.vertices.first,
+                i.vertices.second,
+                graphViewModel.defaultEdgesWidth * 2,
+            )
+            graphViewModel.setEdgeColor(
+                i.vertices.first,
+                i.vertices.second,
+                Color(0xFF00ff88)
+                )
         }
     }
 }

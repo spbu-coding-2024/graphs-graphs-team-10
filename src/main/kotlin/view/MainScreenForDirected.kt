@@ -343,21 +343,7 @@ fun MainScreenForDirected(viewModel: MainScreenViewModelForDirectedGraph) {
                     ) {
                         Text("Find strongly connected components", fontSize = 14.sp)
                     }
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    Button(
-                        onClick = {},
-                        modifier = Modifier.fillMaxWidth(),
-                        colors =
-                            ButtonDefaults.buttonColors(
-                                backgroundColor = Color(0xFF1976D2),
-                                contentColor = Color.White,
-                            ),
-                    ) {
-                        Text("Find communities", fontSize = 18.sp)
-                    }
-
+                    
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Button(

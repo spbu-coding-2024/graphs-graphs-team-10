@@ -329,7 +329,7 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
                     Spacer(modifier = Modifier.height(40.dp))
 
                     Button(
-                        onClick = {},
+                        onClick = viewModel::highlightCommunities,
                         modifier = Modifier.fillMaxWidth(),
                         colors =
                             ButtonDefaults.buttonColors(
@@ -422,8 +422,7 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Button(
-                        onClick = {
-                        },
+                        onClick = viewModel::highlightBridges,
                         modifier = Modifier.fillMaxWidth(),
                         colors =
                             ButtonDefaults.buttonColors(
@@ -437,8 +436,7 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Button(
-                        onClick = {
-                        },
+                        onClick = viewModel::highlightMinimalSpanningTree,
                         modifier = Modifier.fillMaxWidth(),
                         colors =
                             ButtonDefaults.buttonColors(
@@ -446,7 +444,7 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
                                 contentColor = Color.White,
                             ),
                     ) {
-                        Text("Build spanning tree", fontSize = 18.sp)
+                        Text("Find MST", fontSize = 18.sp)
                     }
                 }
             }

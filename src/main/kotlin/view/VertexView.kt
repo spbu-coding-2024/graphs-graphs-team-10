@@ -64,7 +64,7 @@ fun vertexView(
         modifier =
             modifier
                 .offset(viewModel.x, viewModel.y)
-                .zIndex(1 / viewModel.radius.value)
+                .zIndex(1 / viewModel.radius.value),
     ) {
         Box(
             modifier =
@@ -79,7 +79,7 @@ fun vertexView(
                     .border(
                         width = viewModel.radius / 5,
                         color = borderColor,
-                        shape = CircleShape
+                        shape = CircleShape,
                     )
                     .pointerInput(viewModel) {
                         awaitPointerEventScope {
@@ -91,9 +91,9 @@ fun vertexView(
                                             event.changes.fastAll { change ->
                                                 val position = change.position
                                                 position.x >= 0f &&
-                                                        position.y >= 0f &&
-                                                        position.x <= size.width &&
-                                                        position.y <= size.height
+                                                    position.y >= 0f &&
+                                                    position.x <= size.width &&
+                                                    position.y <= size.height
                                             }
                                         if (isInside != isHovered) {
                                             isHovered = isInside

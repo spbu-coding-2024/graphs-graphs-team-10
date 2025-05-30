@@ -1,4 +1,4 @@
-//author: Arseniy Romanov
+// author: Arseniy Romanov
 package algos
 
 import model.DirectedGraph

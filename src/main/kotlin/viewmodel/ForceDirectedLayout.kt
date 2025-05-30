@@ -1,3 +1,4 @@
+//author: Roman Epishkin
 package viewmodel
 
 import androidx.compose.ui.graphics.Color
@@ -15,7 +16,7 @@ class ForceDirectedLayout : RepresentationStrategy {
     private var repulsionForce = 300.0
     private var attractionForce = 0.1
     private var damping = 0.8
-    private var maxIterations = 500
+    private var maxIterations = 2000
     private var overlapPreventionForce = 1500.0 // Increased force
     private val minDistanceMultiplier = 3.0
 

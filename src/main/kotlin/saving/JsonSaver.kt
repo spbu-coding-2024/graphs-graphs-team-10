@@ -1,3 +1,4 @@
+//author: Roman Epishkin
 package saving
 
 import androidx.compose.ui.graphics.Color
@@ -17,6 +18,7 @@ import viewmodel.RepresentationStrategy
 import java.io.File
 import java.io.FileNotFoundException
 import javax.swing.JFileChooser
+import javax.swing.JOptionPane
 import javax.swing.filechooser.FileNameExtensionFilter
 
 @Serializable
@@ -49,7 +51,7 @@ private data class GraphWrapper(
 
 fun Dp.toPx(): Int = (value * 1.0f).toInt()
 
-private fun parseGraphFromJson(filePath: String): GraphJson {
+private fun parseGraphFromJson(filePath: String): GraphJson? {
     val jsonFile = File(filePath)
     if (!jsonFile.exists()) {
         throw FileNotFoundException("File '$filePath' not found.")
@@ -60,7 +62,13 @@ private fun parseGraphFromJson(filePath: String): GraphJson {
         val graphWrapper = Json.decodeFromString<GraphWrapper>(jsonString)
         graphWrapper.graph
     } catch (e: Exception) {
-        throw IllegalArgumentException("Parsing JSON error: ${e.message}")
+        JOptionPane.showMessageDialog(
+            null,
+            "Json parsing error: ${e.message}",
+            "Loading Error",
+            JOptionPane.ERROR_MESSAGE
+        )
+        return null
     }
 }
 
@@ -93,11 +101,11 @@ fun loadMainScreenViewModelFromJson(
     filePath: String,
     representationStrategy: RepresentationStrategy,
 ): MainScreenViewModel? {
-    val graphJson = parseGraphFromJson(filePath)
+    val graphJson = parseGraphFromJson(filePath) ?: return null
     val graph: Graph
     val mainScreenViewModel: MainScreenViewModel
     when (graphJson.type) {
-        "directed" -> { // убрать потом дублирование кода
+        "directed" -> {
             graph = DirectedGraph()
             graphJson.vertices.forEach { vertex -> graph.addVertex(vertex.value) }
             graphJson.edges.forEach { edge -> graph.addEdge(edge.from, edge.to, edge.weight) }
@@ -127,9 +135,8 @@ fun loadMainScreenViewModelFromJson(
             }
             return mainScreenViewModel
         }
-        else -> IllegalArgumentException() // потом тут подумаю чо кинуть
+        else -> return null
     }
-    return null
 }
 
 fun saveToJson(

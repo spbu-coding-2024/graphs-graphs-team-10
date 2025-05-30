@@ -45,8 +45,8 @@ fun App() {
 
 fun main() {
     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
-    application {
-        Window(onCloseRequest = ::exitApplication) {
+    application() {
+        Window(onCloseRequest = ::exitApplication, title = "AlgoGraphia") {
             App()
         }
     }

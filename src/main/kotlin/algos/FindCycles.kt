@@ -1,3 +1,4 @@
+//author: Roman Epishkin
 package algos
 
 import model.DirectedGraph

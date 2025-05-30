@@ -73,7 +73,7 @@ class JsonSaveAndLoadTest {
             if (edge.weight == "20" || edge.weight == "30" || edge.weight == "9") {
                 assertEquals(Color(0xFF1E88E5), edge.color)
             } else if (edge.weight == "40" && edge.firstVertex.value == 5L) {
-                assertEquals(Color(0xFF800020), edge.color)
+                assertEquals(Color(0xFFFFD700), edge.color)
             }
         }
 
@@ -120,7 +120,7 @@ class JsonSaveAndLoadTest {
                 "9" -> assertEquals(Color(0xFF1E88E5), loadEdge.color)
                 "40" -> {
                     if (loadEdge.firstVertex.value == 5L) {
-                        assertEquals(Color(0xFF800020), loadEdge.color)
+                        assertEquals(Color(0xFFFFD700), loadEdge.color)
                     }
                 }
                 else -> fail("Edge with weight ${loadEdge.weight} shouldn't be in loaded graph")

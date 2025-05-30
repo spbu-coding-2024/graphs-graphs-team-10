@@ -87,23 +87,23 @@ class MainScreenViewModelForDirectedGraph(
                 graphViewModel.setEdgeColor(
                     cycle[i],
                     cycle[i + 1],
-                    Color(0xFF800020),
+                    Color(0xFFFFD700),
                 )
                 graphViewModel.setEdgeColor(
                     cycle[i],
                     cycle[i],
-                    Color(0xFF800020),
+                    Color(0xFFFFD700),
                 )
             }
             graphViewModel.setEdgeColor(
                 cycle[cycle.size - 1],
                 cycle[0],
-                Color(0xFF800020),
+                Color(0xFFFFD700),
             )
             graphViewModel.setEdgeColor(
                 cycle[cycle.size - 1],
                 cycle[cycle.size - 1],
-                Color(0xFF800020),
+                Color(0xFFFFD700),
             )
         }
     }

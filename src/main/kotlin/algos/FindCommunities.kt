@@ -67,7 +67,7 @@ fun findCommunities(graph: Graph, resolution: Double = 1.0): Map<Long, Int> {
             improved = true
         }
 
-        val nodes = graph.vertices.shuffled()
+        val nodes = graph.vertices
         nodes.forEach { node ->
             val currentComm = communities[node]!!
             val neighborComms = getNeighborCommunities(node)

@@ -22,6 +22,7 @@ dependencies {
     implementation("org.gephi", "gephi-toolkit", "0.10.1", classifier = "all")
 
     implementation("org.xerial:sqlite-jdbc:3.45.1.0")
+    implementation("org.neo4j.driver:neo4j-java-driver:5.28.5")
 
     testImplementation("io.kotest:kotest-runner-junit5:5.5.5")
     testImplementation("io.kotest:kotest-assertions-core:5.5.5")

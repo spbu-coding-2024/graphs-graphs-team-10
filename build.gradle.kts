@@ -23,6 +23,7 @@ dependencies {
 
     implementation("org.xerial:sqlite-jdbc:3.45.1.0")
     implementation("org.neo4j.driver:neo4j-java-driver:5.28.5")
+    implementation ("org.slf4j:slf4j-simple:1.7.36")
 
     testImplementation("io.kotest:kotest-runner-junit5:5.5.5")
     testImplementation("io.kotest:kotest-assertions-core:5.5.5")

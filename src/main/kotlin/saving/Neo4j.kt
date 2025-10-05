@@ -41,8 +41,8 @@ class Neo4jGraphRepository(
             // Delete existing graph
             session.executeWrite { tx ->
                 tx.run("""
-                MATCH (g:Graph {name: $${"graphName"}})
-                DETACH DELETE g
+                MATCH (g:Graph {name: $${"graphName"}}) - [:CONTAINS] - (n)
+                DETACH DELETE g, n
             """, Values.parameters("graphName", graphName)).consume()
             }
 
@@ -192,5 +192,4 @@ class Neo4jGraphRepository(
                 .list { it["name"].asString() }
         }
     }
-
 }

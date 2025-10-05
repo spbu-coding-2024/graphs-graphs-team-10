@@ -51,12 +51,14 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import saving.GraphRepository
 import saving.saveToJson
 import saving.showFileSaveDialog
+import saving.Neo4jGraphRepository
 import viewmodel.MainScreenViewModelForUndirectedGraph
 import java.awt.Dimension
 import java.sql.DriverManager
 import java.sql.SQLException
 import javax.swing.JFileChooser
 import javax.swing.JOptionPane
+import javax.swing.JPasswordField
 import javax.swing.filechooser.FileNameExtensionFilter
 import kotlin.use
 
@@ -590,7 +592,77 @@ fun MainScreenForUndirected(viewModel: MainScreenViewModelForUndirectedGraph) {
                     }
 
                     Button(
-                        onClick = {},
+                        onClick = {
+                            val graphName = JOptionPane.showInputDialog(
+                                null,
+                                "Enter graph name:",
+                                "Save Graph to Neo4j",
+                                JOptionPane.QUESTION_MESSAGE
+                            ) ?: return@Button
+
+                            if (graphName.isBlank()) {
+                                JOptionPane.showMessageDialog(
+                                    null,
+                                    "Graph name cannot be empty!",
+                                    "Error",
+                                    JOptionPane.ERROR_MESSAGE
+                                )
+                                return@Button
+                            }
+                            
+                            val uri = JOptionPane.showInputDialog(
+                                null,
+                                "Enter Neo4j URI (e.g., neo4j://localhost:7687):",
+                                "Neo4j Connection",
+                                JOptionPane.QUESTION_MESSAGE
+                            ) ?: return@Button
+
+                            val user = JOptionPane.showInputDialog(
+                                null,
+                                "Enter username:",
+                                "Neo4j Authentication",
+                                JOptionPane.QUESTION_MESSAGE
+                            ) ?: return@Button
+
+                            val passwordField = JPasswordField()
+                            val passwordOption = JOptionPane.showConfirmDialog(
+                                null,
+                                passwordField,
+                                "Enter password",
+                                JOptionPane.OK_CANCEL_OPTION,
+                                JOptionPane.QUESTION_MESSAGE
+                            )
+
+                            if (passwordOption != JOptionPane.OK_OPTION) return@Button
+                            val password = String(passwordField.password)
+
+                            val database = JOptionPane.showInputDialog(
+                                null,
+                                "Enter database name (leave blank for default):",
+                                "Neo4j Database",
+                                JOptionPane.QUESTION_MESSAGE
+                            )?.takeIf { it.isNotBlank() }
+
+                            try {
+                                val repository = Neo4jGraphRepository(uri, user, password, database)
+                                repository.saveGraph(viewModel.graphViewModel, graphName, false)
+                                repository.close()
+
+                                JOptionPane.showMessageDialog(
+                                    null,
+                                    "Graph saved successfully!",
+                                    "Success",
+                                    JOptionPane.INFORMATION_MESSAGE
+                                )
+                            } catch (e: Exception) {
+                                JOptionPane.showMessageDialog(
+                                    null,
+                                    "Error saving graph: ${e.message}",
+                                    "Error",
+                                    JOptionPane.ERROR_MESSAGE
+                                )
+                            }
+                        },
                         modifier =
                             Modifier
                                 .fillMaxWidth()

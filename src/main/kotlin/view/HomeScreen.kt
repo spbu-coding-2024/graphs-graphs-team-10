@@ -31,6 +31,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import saving.GraphRepository
 import saving.loadMainScreenViewModelFromJson
+import saving.Neo4jGraphRepository
 import viewmodel.ForceDirectedLayout
 import viewmodel.MainScreenViewModelForDirectedGraph
 import viewmodel.MainScreenViewModelForUndirectedGraph
@@ -40,6 +41,7 @@ import java.sql.SQLException
 import java.util.Locale.getDefault
 import javax.swing.JFileChooser
 import javax.swing.JOptionPane
+import javax.swing.JPasswordField
 
 @Composable
 fun homeScreen() {
@@ -180,7 +182,92 @@ fun homeScreen() {
                 }
 
                 Button(
-                    onClick = { /* TODO */ },
+                    onClick = {
+                        try {
+                            val uri = JOptionPane.showInputDialog(
+                                null,
+                                "Enter Neo4j URI (e.g., neo4j://localhost:7687):",
+                                "Neo4j Connection",
+                                JOptionPane.QUESTION_MESSAGE
+                            ) ?: return@Button
+
+                            val user = JOptionPane.showInputDialog(
+                                null,
+                                "Enter username:",
+                                "Neo4j Authentication",
+                                JOptionPane.QUESTION_MESSAGE
+                            ) ?: return@Button
+
+                            val passwordField = JPasswordField()
+                            val passwordOption = JOptionPane.showConfirmDialog(
+                                null,
+                                passwordField,
+                                "Enter password",
+                                JOptionPane.OK_CANCEL_OPTION,
+                                JOptionPane.QUESTION_MESSAGE
+                            )
+
+                            if (passwordOption != JOptionPane.OK_OPTION) return@Button
+                            val password = String(passwordField.password)
+
+                            val database = JOptionPane.showInputDialog(
+                                null,
+                                "Enter database name (leave blank for default):",
+                                "Neo4j Database",
+                                JOptionPane.QUESTION_MESSAGE
+                            )?.takeIf { it.isNotBlank() }
+
+                            val repository = Neo4jGraphRepository(uri, user, password, database)
+
+                            try {
+                                val graphs = repository.listSavedGraphs()
+                                if (graphs.isEmpty()) {
+                                    repository.close()
+                                    JOptionPane.showMessageDialog(
+                                        null,
+                                        "No graphs found in database '${database ?: "default"}'",
+                                        "Error",
+                                        JOptionPane.WARNING_MESSAGE,
+                                    )
+                                    return@Button
+                                }
+
+                                val graphArray = graphs.toTypedArray()
+                                val selectedGraph = JOptionPane.showInputDialog(
+                                    null,
+                                    "Select graph:",
+                                    "Graph Selection",
+                                    JOptionPane.QUESTION_MESSAGE,
+                                    null,
+                                    graphArray,
+                                    graphArray.first()
+                                ) as? String
+
+                                if (selectedGraph == null) {
+                                    repository.close()
+                                    return@Button
+                                }
+
+                                val viewModel = repository.loadGraph(selectedGraph)
+                                navigator.push(GraphScreen(viewModel))
+                            } catch (e: Exception) {
+                                repository.close()
+                                JOptionPane.showMessageDialog(
+                                    null,
+                                    "Error loading from Neo4j: ${e.message}",
+                                    "Loading Error",
+                                    JOptionPane.ERROR_MESSAGE,
+                                )
+                            }
+                        } catch (e: Exception) {
+                            JOptionPane.showMessageDialog(
+                                null,
+                                "Error connecting to Neo4j: ${e.message}",
+                                "Connection Error",
+                                JOptionPane.ERROR_MESSAGE,
+                            )
+                        }
+                    },
                     modifier =
                         Modifier
                             .height(80.dp)
